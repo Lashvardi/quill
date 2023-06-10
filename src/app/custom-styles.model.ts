@@ -23,7 +23,8 @@ export interface ElementStyles {
   fontFamily: string;
   fontSize: string;
   fontStyle: string;
-  textAlign: 'left' | 'center' | 'justified';
+  // Changed For String 
+  textAlign: string;
   textDecoration: string;
   lineLeight: string;
   letterSpacing: string;
@@ -33,6 +34,7 @@ export interface ElementStyles {
   margin: string;
   padding: string;
 }
+
 
 export interface BorderStyles {
   width: string;

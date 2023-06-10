@@ -1,23 +1,21 @@
+<!-- Todo: Should Be Styled, And Moved To SCSS Project -->
+
 <div class="container">
-  <quill-editor
-    [ngModel]="quillContent"
-    (ngModelChange)="onContentUpdated($event)"
-    appCustomStyles
-    [config]="customStyles$ | async"
-  ></quill-editor>
+  <quill-editor [ngModel]="quillContent" (ngModelChange)="onContentUpdated($event)" appCustomStyles
+    [config]="customStyles$ | async"></quill-editor>
   <div class="style-editor">
     <h2>Test styles</h2>
-    <form
-      [formGroup]="customStyles"
-      (input)="customStyles$.next(customStyles.getRawValue())"
-    >
+    <form [formGroup]="customStyles" (input)="customStyles$.next(customStyles.getRawValue())">
       <div formGroupName="elements">
+<!-- ? ----  Divider ---- -->
         <div formGroupName="h1">
           <h3>H1</h3>
+          <!-- * Changed To Color Picker -->
           <div>
-            <label for="h1-color">Color </label>
-            <input id="h1-color" type="text" formControlName="color" />
+            <label for="h1-color">Color</label>
+            <input id="h1-color" type="color" formControlName="color" />
           </div>
+
           <div>
             <label for="h1-font">Font Family </label>
             <input id="h1-font" type="text" formControlName="fontFamily" />
@@ -26,6 +24,68 @@
             <label for="h1-font-size">Font Size </label>
             <input id="h1-font-size" type="text" formControlName="fontSize" />
           </div>
+
+          <div>
+            <label for="h1-textAlign">Text Align </label>
+            <select id="h1-textAlign" formControlName="textAlign">
+              <option *ngFor="let option of textAlignOptions" [value]="option.value">
+                {{option.label}}
+              </option>
+            </select>
+          </div>
+
+        </div>
+<!-- ? ----  Divider ---- -->
+        <div formGroupName="h2">
+          <h3>H2</h3>
+          <div>
+            <label for="h2-color">Color </label>
+            <input id="h2-color" type="color" formControlName="color" />
+          </div>
+          <div>
+            <label for="h2-font">Font Family </label>
+            <input id="h2-font" type="text" formControlName="fontFamily" />
+          </div>
+          <div>
+            <label for="h2-font-size">Font Size </label>
+            <input id="h2-font-size" type="text" formControlName="fontSize" />
+          </div>
+
+          <div>
+            <label for="h2-textAlign">Text Align </label>
+            <select id="h2-textAlign" formControlName="textAlign">
+              <option *ngFor="let option of textAlignOptions" [value]="option.value">
+                {{option.label}}
+              </option>
+            </select>
+          </div>
+
+        </div>
+<!-- ? ----  Divider ---- -->
+        <div formGroupName="h3">
+          <h3>H3</h3>
+          <div>
+            <label for="h3-color">Color </label>
+            <input id="h3-color" type="color" formControlName="color" />
+          </div>
+          <div>
+            <label for="h3-font">Font Family </label>
+            <input id="h3-font" type="text" formControlName="fontFamily" />
+          </div>
+          <div>
+            <label for="h3-font-size">Font Size </label>
+            <input id="h3-font-size" type="text" formControlName="fontSize" />
+          </div>
+
+          <div>
+            <label for="h3-textAlign">Text Align </label>
+            <select id="h3-textAlign" formControlName="textAlign">
+              <option *ngFor="let option of textAlignOptions" [value]="option.value">
+                {{option.label}}
+              </option>
+            </select>
+          </div>
+<!-- ? ----  Divider ---- -->
         </div>
         <div formGroupName="blockquote">
           <h3>Blockquote</h3>
@@ -35,11 +95,7 @@
           </div>
           <div>
             <label for="bq-font-family">Font Family </label>
-            <input
-              id="bq-font-family"
-              type="text"
-              formControlName="fontFamily"
-            />
+            <input id="bq-font-family" type="text" formControlName="fontFamily" />
           </div>
           <div>
             <label for="bq-font-size">Font Size </label>
@@ -50,9 +106,4 @@
     </form>
   </div>
 </div>
-<div
-  class="output"
-  [innerHTML]="quillContent"
-  appCustomStyles
-  [config]="customStyles$ | async"
-></div>
+<div class="output" [innerHTML]="quillContent" appCustomStyles [config]="customStyles$ | async"></div>

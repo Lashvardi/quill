@@ -30,6 +30,15 @@ export class AppComponent implements OnInit {
     },
   };
 
+  textAlignOptions = [
+    { label: 'Left', value: 'left', icon: 'bi bi-text-left' },
+    { label: 'Center', value: 'center', icon: 'bi bi-text-center' },
+    { label: 'Right', value: 'right', icon: 'bi bi-text-right' },
+    { label: 'End', value: 'end', icon: 'bi bi-text-indent-end' },
+  ];
+
+
+
   customStyles = this.fb.group({
     fontFamilies: this.fb.array(['Helvetica', 'Serif']),
     globalFontFamily: 'Helvetica',
@@ -38,6 +47,20 @@ export class AppComponent implements OnInit {
         color: 'black',
         fontFamily: 'Helvetica',
         fontSize: '2rem',
+        textAlign: 'left',
+      }),
+      h2: this.fb.group({
+        color: 'black',
+        fontFamily: 'Helvetica',
+        textAlign: 'left',
+
+        fontSize: '1.8rem',
+      }),
+      h3: this.fb.group({
+        color: 'black',
+        fontFamily: 'Helvetica',
+        fontSize: '1.6rem',
+        textAlign: 'left',
       }),
       blockquote: this.fb.group({
         color: 'gray',
@@ -58,9 +81,12 @@ export class AppComponent implements OnInit {
     if (savedContent) {
       this.quillContent = savedContent;
     }
-    setTimeout(() => {
+
+    // ! Removed Timeout It was causing The Issue of not loading the content properly
+    this.customStyles.valueChanges.subscribe(value => {
       this.customStyles$.next(this.customStyles.getRawValue());
-    }, 2000);
+    });
+
   }
 
   onContentUpdated(newContent: string) {
@@ -71,4 +97,6 @@ export class AppComponent implements OnInit {
   onSubmit() {
     console.log(this.quillContent);
   }
+
+
 }
