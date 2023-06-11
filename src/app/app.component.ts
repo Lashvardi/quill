@@ -11,6 +11,10 @@ import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 export class AppComponent implements OnInit {
   quillContent = '';
 
+  //
+  showModal = false;
+
+
   someConfig: CourseArticleConfig = {
     fontFamilies: ['Helvetica', 'Arial', 'Roboto'],
     globalFontFamily: 'Serif',
@@ -49,6 +53,7 @@ export class AppComponent implements OnInit {
         fontSize: '2rem',
         textAlign: 'left',
       }),
+
       h2: this.fb.group({
         color: 'black',
         fontFamily: 'Helvetica',
@@ -56,17 +61,33 @@ export class AppComponent implements OnInit {
 
         fontSize: '1.8rem',
       }),
+
       h3: this.fb.group({
         color: 'black',
         fontFamily: 'Helvetica',
         fontSize: '1.6rem',
         textAlign: 'left',
       }),
+
+      p: this.fb.group({
+        color: 'black',
+        fontFamily: 'Helvetica',
+        fontSize: '1.2rem',
+        textAlign: 'left',
+      })
+      ,
       blockquote: this.fb.group({
         color: 'gray',
         fontFamily: 'serif',
         fontSize: '1.2rem',
       }),
+
+      a: this.fb.group({
+        color: 'blue',
+        fontFamily: 'serif',
+        fontSize: '1.2rem',
+
+      })
     }),
   });
 
@@ -97,6 +118,29 @@ export class AppComponent implements OnInit {
   onSubmit() {
     console.log(this.quillContent);
   }
+
+  // Modal
+  closeModal() {
+    this.showModal = false;
+  }
+
+  onOverlayClick(event: MouseEvent) {
+    // Close the modal only if the overlay (empty space) is clicked
+    if (event.target === event.currentTarget) {
+      this.closeModal();
+    }
+  }
+
+  // Accordion
+  accordionStatus: { [key: string]: boolean } = {};
+
+toggleAccordion(panel: string) {
+  this.accordionStatus[panel] = !this.accordionStatus[panel];
+}
+
+isAccordionOpen(panel: string) {
+  return this.accordionStatus[panel];
+}
 
 
 }

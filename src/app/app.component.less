@@ -1,6 +1,6 @@
-.container {
+.container-fluid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
 
   .style-editor {
     padding: 8px;
@@ -10,3 +10,53 @@
 quill-editor {
   overflow-y: scroll;
 }
+
+
+// Modal
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+  }
+}
+
+
+// Accordion
+/* Add these styles to your component's CSS file */
+.accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.accordion-item {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.accordion-button {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.accordion-content {
+  padding: 10px;
+}
+
+
+

@@ -5,9 +5,10 @@ import { QuillModule } from 'ngx-quill';
 
 import { AppComponent } from './app.component';
 import { CustomStylesDirective } from './custom-styles.directive';
+import { OutputComponent } from './components/output/output.component';
 
 @NgModule({
-  declarations: [AppComponent, CustomStylesDirective],
+  declarations: [AppComponent, CustomStylesDirective, OutputComponent],
   imports: [
     BrowserModule,
     FormsModule,
