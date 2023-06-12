@@ -5,197 +5,183 @@
     [config]="customStyles$ | async"></quill-editor>
   <div class="style-editor">
     <h2>Test styles</h2>
-    <button (click)="showModal = true">Show Result</button>
+    <button nz-button nzType="primary" (click)="showModal()">
+      <span>Show Modal</span>
+    </button>
     <form [formGroup]="customStyles" (input)="customStyles$.next(customStyles.getRawValue())">
       <div formGroupName="elements">
         <!-- ? ----  Divider ---- -->
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-button" (click)="toggleAccordion('h1')">H1</button>
-            <div class="accordion-content" [hidden]="!isAccordionOpen('h1')">
-              <div formGroupName="h1">
-                <h3>H1</h3>
-                <!-- * Changed To Color Picker -->
-                <div>
-                  <label for="h1-color">Color</label>
-                  <input id="h1-color" type="color" formControlName="color" />
-                </div>
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="H1" [nzActive]="true">
+            <div formGroupName="h1">
+              <h3>H1</h3>
+              <!-- * Changed To Color Picker -->
+              <div>
+                <label for="h1-color">Color</label>
+                <input id="h1-color" type="color" formControlName="color" />
+              </div>
 
-                <div>
-                  <label for="h1-font">Font Family </label>
-                  <input id="h1-font" type="text" formControlName="fontFamily" />
-                </div>
-                <div>
-                  <label for="h1-font-size">Font Size </label>
-                  <input id="h1-font-size" type="text" formControlName="fontSize" />
-                </div>
+              <div>
+                <label for="h1-font">Font Family </label>
+                <input id="h1-font" type="text" formControlName="fontFamily" />
+              </div>
+              <div>
+                <label for="h1-font-size">Font Size </label>
+                <input id="h1-font-size" type="text" formControlName="fontSize" />
+              </div>
 
-                <div>
-                  <label for="h1-textAlign">Text Align </label>
-                  <select id="h1-textAlign" formControlName="textAlign">
-                    <option *ngFor="let option of textAlignOptions" [value]="option.value">
-                      {{option.label}}
-                    </option>
-                  </select>
-                </div>
+              <div>
+                <label for="h1-textAlign">Text Align </label>
+                <select id="h1-textAlign" formControlName="textAlign">
+                  <option *ngFor="let option of textAlignOptions" [value]="option.value">
+                    {{option.label}}
+                  </option>
+                </select>
               </div>
             </div>
-          </div>
-        </div>
+          </nz-collapse-panel>
+        </nz-collapse>
 
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-button" (click)="toggleAccordion('h2')">H2</button>
-            <div class="accordion-content" [hidden]="!isAccordionOpen('h2')">
-              <div formGroupName="h2">
-                <h3>H2</h3>
-                <div>
-                  <label for="h2-color">Color </label>
-                  <input id="h2-color" type="color" formControlName="color" />
-                </div>
-                <div>
-                  <label for="h2-font">Font Family </label>
-                  <input id="h2-font" type="text" formControlName="fontFamily" />
-                </div>
-                <div>
-                  <label for="h2-font-size">Font Size </label>
-                  <input id="h2-font-size" type="text" formControlName="fontSize" />
-                </div>
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="H2">
+            <div formGroupName="h2">
+              <h3>H2</h3>
+              <div>
+                <label for="h2-color">Color </label>
+                <input id="h2-color" type="color" formControlName="color" />
+              </div>
+              <div>
+                <label for="h2-font">Font Family </label>
+                <input id="h2-font" type="text" formControlName="fontFamily" />
+              </div>
+              <div>
+                <label for="h2-font-size">Font Size </label>
+                <input id="h2-font-size" type="text" formControlName="fontSize" />
+              </div>
 
-                <div>
-                  <label for="h2-textAlign">Text Align </label>
-                  <select id="h2-textAlign" formControlName="textAlign">
-                    <option *ngFor="let option of textAlignOptions" [value]="option.value">
-                      {{option.label}}
-                    </option>
-                  </select>
-                </div>
-
+              <div>
+                <label for="h2-textAlign">Text Align </label>
+                <select id="h2-textAlign" formControlName="textAlign">
+                  <option *ngFor="let option of textAlignOptions" [value]="option.value">
+                    {{option.label}}
+                  </option>
+                </select>
               </div>
             </div>
-          </div>
-        </div>
+          </nz-collapse-panel>
+        </nz-collapse>
 
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-button" (click)="toggleAccordion('h3')">H3</button>
-            <div class="accordion-content" [hidden]="!isAccordionOpen('h3')">
-              <div formGroupName="h3">
-                <h3>H3</h3>
-                <div>
-                  <label for="h3-color">Color </label>
-                  <input id="h3-color" type="color" formControlName="color" />
-                </div>
-                <div>
-                  <label for="h3-font">Font Family </label>
-                  <input id="h3-font" type="text" formControlName="fontFamily" />
-                </div>
-                <div>
-                  <label for="h3-font-size">Font Size </label>
-                  <input id="h3-font-size" type="text" formControlName="fontSize" />
-                </div>
 
-                <div>
-                  <label for="h3-textAlign">Text Align </label>
-                  <select id="h3-textAlign" formControlName="textAlign">
-                    <option *ngFor="let option of textAlignOptions" [value]="option.value">
-                      {{option.label}}
-                    </option>
-                  </select>
-                </div>
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="h3">
+            <div formGroupName="h3">
+              <h3>H3</h3>
+              <div>
+                <label for="h3-color">Color </label>
+                <input id="h3-color" type="color" formControlName="color" />
+              </div>
+              <div>
+                <label for="h3-font">Font Family </label>
+                <input id="h3-font" type="text" formControlName="fontFamily" />
+              </div>
+              <div>
+                <label for="h3-font-size">Font Size </label>
+                <input id="h3-font-size" type="text" formControlName="fontSize" />
+              </div>
+
+              <div>
+                <label for="h3-textAlign">Text Align </label>
+                <select id="h3-textAlign" formControlName="textAlign">
+                  <option *ngFor="let option of textAlignOptions" [value]="option.value">
+                    {{option.label}}
+                  </option>
+                </select>
               </div>
             </div>
-          </div>
-        </div>
+          </nz-collapse-panel>
+        </nz-collapse>
 
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-button" (click)="toggleAccordion('p')">P</button>
-            <div class="accordion-content" [hidden]="!isAccordionOpen('p')">
-              <div formGroupName="p">
-                <h3>P (Normal)</h3>
-                <div>
-                  <label for="p-color">Color </label>
-                  <input id="p-color" type="color" formControlName="color" />
-                </div>
-                <div>
-                  <label for="p-font-family">Font Family </label>
-                  <input id="p-font-family" type="text" formControlName="fontFamily" />
-                </div>
-                <div>
-                  <label for="p-font-size">Font Size </label>
-                  <input id="p-font-size" type="text" formControlName="fontSize" />
-                </div>
 
-                <div>
-                  <label for="p-textAlign">Text Align </label>
-                  <select id="p-textAlign" formControlName="textAlign">
-                    <option *ngFor="let option of textAlignOptions" [value]="option.value">
-                      {{option.label}}
-                    </option>
-                  </select>
-                </div>
+
+
+
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="P (Normal)">
+            <div formGroupName="p">
+              <h3>P (Normal)</h3>
+              <div>
+                <label for="p-color">Color </label>
+                <input id="p-color" type="color" formControlName="color" />
+              </div>
+              <div>
+                <label for="p-font-family">Font Family </label>
+                <input id="p-font-family" type="text" formControlName="fontFamily" />
+              </div>
+              <div>
+                <label for="p-font-size">Font Size </label>
+                <input id="p-font-size" type="text" formControlName="fontSize" />
+              </div>
+
+              <div>
+                <label for="p-textAlign">Text Align </label>
+                <select id="p-textAlign" formControlName="textAlign">
+                  <option *ngFor="let option of textAlignOptions" [value]="option.value">
+                    {{option.label}}
+                  </option>
+                </select>
               </div>
             </div>
-          </div>
-        </div>
+          </nz-collapse-panel>
+        </nz-collapse>
 
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-button" (click)="toggleAccordion('a')">a (Link)</button>
-            <div class="accordion-content" [hidden]="!isAccordionOpen('a')">
-              <div formGroupName="a">
-                <h3>a (Link)</h3>
-                <div>
-                  <label for="a-color">Color </label>
-                  <input id="a-color" type="color" formControlName="color" />
-                </div>
-                <div>
-                  <label for="a-font-family">Font Family </label>
-                  <input id="a-font-family" type="text" formControlName="fontFamily" />
-                </div>
-                <div>
-                  <label for="a-font-size">Font Size </label>
-                  <input id="a-font-size" type="text" formControlName="fontSize" />
-                </div>
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="a (Link)">
+            <div formGroupName="a">
+              <h3>a (Link)</h3>
+              <div>
+                <label for="a-color">Color </label>
+                <input id="a-color" type="color" formControlName="color" />
+              </div>
+              <div>
+                <label for="a-font-family">Font Family </label>
+                <input id="a-font-family" type="text" formControlName="fontFamily" />
+              </div>
+              <div>
+                <label for="a-font-size">Font Size </label>
+                <input id="a-font-size" type="text" formControlName="fontSize" />
               </div>
             </div>
-          </div>
-        </div>
+          </nz-collapse-panel>
+        </nz-collapse>
 
-
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-button" (click)="toggleAccordion('blockquote')">Blockquote</button>
-            <div class="accordion-content" [hidden]="!isAccordionOpen('blockquote')">
-              <div formGroupName="blockquote">
-                <h3>Blockquote</h3>
-                <div>
-                  <label for="bq-color">Color </label>
-                  <input id="bq-color" type="text" formControlName="color" />
-                </div>
-                <div>
-                  <label for="bq-font-family">Font Family </label>
-                  <input id="bq-font-family" type="text" formControlName="fontFamily" />
-                </div>
-                <div>
-                  <label for="bq-font-size">Font Size </label>
-                  <input id="bq-font-size" type="text" formControlName="fontSize" />
-                </div>
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="blockquote">
+            <div formGroupName="blockquote">
+              <h3>Blockquote</h3>
+              <div>
+                <label for="bq-color">Color </label>
+                <input id="bq-color" type="text" formControlName="color" />
+              </div>
+              <div>
+                <label for="bq-font-family">Font Family </label>
+                <input id="bq-font-family" type="text" formControlName="fontFamily" />
+              </div>
+              <div>
+                <label for="bq-font-size">Font Size </label>
+                <input id="bq-font-size" type="text" formControlName="fontSize" />
               </div>
             </div>
-          </div>
-        </div>
+          </nz-collapse-panel>
+        </nz-collapse>
 
       </div>
-
     </form>
   </div>
 </div>
 
-<div *ngIf="showModal" class="fullscreen-overlay" (click)="onOverlayClick($event)">
-  <div class="modal-content">
-    <button class="close-button" (click)="closeModal()">Close</button>
-    <div class="output" [innerHTML]="quillContent" appCustomStyles [config]="customStyles$ | async"></div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Result" (nzOnCancel)="handleCancel()" (nzOnOk)="handleCancel()">
+  <div *nzModalContent class="output" [innerHTML]="quillContent" appCustomStyles [config]="customStyles$ | async">
   </div>
-</div>
+
+</nz-modal>

@@ -6,6 +6,19 @@ import { QuillModule } from 'ngx-quill';
 import { AppComponent } from './app.component';
 import { CustomStylesDirective } from './custom-styles.directive';
 import { OutputComponent } from './components/output/output.component';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// * Ng Zorro Modules
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+
+registerLocaleData(en);
 
 @NgModule({
   declarations: [AppComponent, CustomStylesDirective, OutputComponent],
@@ -14,8 +27,15 @@ import { OutputComponent } from './components/output/output.component';
     FormsModule,
     ReactiveFormsModule,
     QuillModule.forRoot(),
+    HttpClientModule,
+    BrowserAnimationsModule,
+    NzCollapseModule,
+    NzButtonModule,
+    NzModalModule
   ],
-  providers: [],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

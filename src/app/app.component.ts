@@ -11,10 +11,6 @@ import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 export class AppComponent implements OnInit {
   quillContent = '';
 
-  //
-  showModal = false;
-
-
   someConfig: CourseArticleConfig = {
     fontFamilies: ['Helvetica', 'Arial', 'Roboto'],
     globalFontFamily: 'Serif',
@@ -119,28 +115,25 @@ export class AppComponent implements OnInit {
     console.log(this.quillContent);
   }
 
-  // Modal
-  closeModal() {
-    this.showModal = false;
+
+  // Modal Code
+  isVisible = false;
+  isOkLoading = false;
+
+  showModal(): void {
+    this.isVisible = true;
   }
 
-  onOverlayClick(event: MouseEvent) {
-    // Close the modal only if the overlay (empty space) is clicked
-    if (event.target === event.currentTarget) {
-      this.closeModal();
-    }
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+    }, 3000);
   }
 
-  // Accordion
-  accordionStatus: { [key: string]: boolean } = {};
-
-toggleAccordion(panel: string) {
-  this.accordionStatus[panel] = !this.accordionStatus[panel];
-}
-
-isAccordionOpen(panel: string) {
-  return this.accordionStatus[panel];
-}
-
+  handleCancel(): void {
+    this.isVisible = false;
+  }
 
 }
