@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +12,6 @@ export class AppComponent implements OnInit {
 
   //
   showModal = false;
-
 
   someConfig: CourseArticleConfig = {
     fontFamilies: ['Helvetica', 'Arial', 'Roboto'],
@@ -40,8 +38,6 @@ export class AppComponent implements OnInit {
     { label: 'Right', value: 'right', icon: 'bi bi-text-right' },
     { label: 'End', value: 'end', icon: 'bi bi-text-indent-end' },
   ];
-
-
 
   customStyles = this.fb.group({
     fontFamilies: this.fb.array(['Helvetica', 'Serif']),
@@ -74,20 +70,20 @@ export class AppComponent implements OnInit {
         fontFamily: 'Helvetica',
         fontSize: '1.2rem',
         textAlign: 'left',
-      })
-      ,
+      }),
       blockquote: this.fb.group({
         color: 'gray',
         fontFamily: 'serif',
         fontSize: '1.2rem',
       }),
-
       a: this.fb.group({
         color: 'blue',
         fontFamily: 'serif',
         fontSize: '1.2rem',
-
-      })
+      }),
+      '.test_box': this.fb.group({
+        backgroundColor: 'white',
+      }),
     }),
   });
 
@@ -104,10 +100,9 @@ export class AppComponent implements OnInit {
     }
 
     // ! Removed Timeout It was causing The Issue of not loading the content properly
-    this.customStyles.valueChanges.subscribe(value => {
+    this.customStyles.valueChanges.subscribe((value) => {
       this.customStyles$.next(this.customStyles.getRawValue());
     });
-
   }
 
   onContentUpdated(newContent: string) {
@@ -134,13 +129,11 @@ export class AppComponent implements OnInit {
   // Accordion
   accordionStatus: { [key: string]: boolean } = {};
 
-toggleAccordion(panel: string) {
-  this.accordionStatus[panel] = !this.accordionStatus[panel];
-}
+  toggleAccordion(panel: string) {
+    this.accordionStatus[panel] = !this.accordionStatus[panel];
+  }
 
-isAccordionOpen(panel: string) {
-  return this.accordionStatus[panel];
-}
-
-
+  isAccordionOpen(panel: string) {
+    return this.accordionStatus[panel];
+  }
 }

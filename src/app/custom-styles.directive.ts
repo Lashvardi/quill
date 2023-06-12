@@ -6,6 +6,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { CourseArticleConfig } from './custom-styles.model';
+
 @Directive({
   selector: '[appCustomStyles]',
 })
