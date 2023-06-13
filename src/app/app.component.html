@@ -1,14 +1,21 @@
 <!-- Todo: Should Be Styled, And Moved To SCSS Project -->
 
 <div class="container-fluid">
-  <quill-editor [ngModel]="quillContent" (ngModelChange)="onContentUpdated($event)"
-    appCustomStyles [config]="customStyles$ | async"></quill-editor>
+  <quill-editor [ngModel]="quillContent" (ngModelChange)="onContentUpdated($event)" appCustomStyles
+    [config]="customStyles$ | async"></quill-editor>
   <div class="style-editor">
     <h2>Style Editor</h2>
     <button nz-button nzType="primary" (click)="showModal()">
       <span>Show Result</span>
     </button>
     <form [formGroup]="customStyles" (input)="customStyles$.next(customStyles.getRawValue())">
+      <nz-collapse>
+        <nz-collapse-panel nzHeader="Fonts">
+          <div class="config-box">
+            <input type="file" (change)="onFileSelected($event)">
+          </div>
+        </nz-collapse-panel>
+      </nz-collapse>
       <div formGroupName="elements">
         <!-- ? ----  Divider ---- -->
         <nz-collapse>
@@ -342,7 +349,8 @@
       </nz-dropdown-menu>
 
       <div>
-        <pre class="code pre-style" *ngIf="viewMode === 'css'" [innerHtml]="quillStyle | jsonToCss | highlightCss"></pre>
+        <pre class="code pre-style" *ngIf="viewMode === 'css'"
+          [innerHtml]="quillStyle | jsonToCss | highlightCss"></pre>
         <pre class="code pre-style"
           *ngIf="viewMode === 'json'"><code class="language-json">{{quillStyle | json}}</code></pre>
       </div>

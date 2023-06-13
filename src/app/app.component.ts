@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { FormArray, NonNullableFormBuilder } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 
@@ -185,5 +185,53 @@ export class AppComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
   }
+
+
+  //? Uploading Fonts
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      this.uploadFile(file);
+    }
+  }
+  uploadFile(file: File) {
+    const reader = new FileReader();
+
+    // Extract the font name without the extension
+    const fontName = file.name.split('.').slice(0, -1).join('.');
+
+    reader.onload = (event: any) => {
+      // Create a new blob object
+      const blob = new Blob([event.target.result], { type: file.type });
+
+      // Create a URL for the blob object
+      const blobURL = URL.createObjectURL(blob);
+
+      // Add the @font-face rule to the stylesheet
+      const style = document.createElement('style');
+      style.textContent = `
+        @font-face {
+          font-family: "${fontName}";
+          src: url("${blobURL}");
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Add the font to the form control
+      this.addFontFamily(fontName);
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+
+  addFontFamily(fontName: string) {
+    (this.customStyles.controls.fontFamilies as FormArray).push(this.fb.control(fontName));
+
+    this.fontFamilies.push(fontName);
+  }
+
+
+
 
 }
