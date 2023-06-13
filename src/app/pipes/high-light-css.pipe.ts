@@ -6,7 +6,22 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class HighlightCssPipe implements PipeTransform {
 
   transform(css: string): string {
-    const keywords = ['color', 'fontFamily', 'fontSize', 'textAlign', 'fontStyle', 'backgroundColor'];
+    //? List Has to be Updated EveryTime New Keyword is Added
+    const keywords = [
+      'fontFamily',
+      'fontSize',
+      'fontStyle',
+      'textAlign',
+      'textDecoration',
+      'lineHeight',
+      'letterSpacing',
+      'color',
+      'backgroundColor',
+      'border',
+      'margin',
+      'padding'
+    ];
+
     const values = css.match(/:.*?;/g)?.map(s => s.slice(1, -1).trim()) || [];
     const selectors = css.match(/.*?{/g)?.map(s => s.slice(0, -1).trim()) || [];
 

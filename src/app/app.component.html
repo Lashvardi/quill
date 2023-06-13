@@ -1,8 +1,8 @@
 <!-- Todo: Should Be Styled, And Moved To SCSS Project -->
 
 <div class="container-fluid">
-  <quill-editor [modules]="quillModules" [ngModel]="quillContent" (ngModelChange)="onContentUpdated($event)" appCustomStyles
-    [config]="customStyles$ | async"></quill-editor>
+  <quill-editor [modules]="quillModules" [ngModel]="quillContent" (ngModelChange)="onContentUpdated($event)"
+    appCustomStyles [config]="customStyles$ | async"></quill-editor>
   <div class="style-editor">
     <h2>Style Editor</h2>
     <button nz-button nzType="primary" (click)="showModal()">
@@ -332,17 +332,20 @@
       </div>
     </div>
 
-    <button nz-button nz-dropdown [nzDropdownMenu]="menu">View As</button>
-    <nz-dropdown-menu #menu="nzDropdownMenu">
-      <ul nz-menu>
-        <li nz-menu-item (click)="viewMode = 'css'">CSS</li>
-        <li nz-menu-item (click)="viewMode = 'json'">JSON</li>
-      </ul>
-    </nz-dropdown-menu>
+    <div class="container">
+      <button nz-button nz-dropdown [nzDropdownMenu]="menu">View As {{viewMode}}</button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item (click)="viewMode = 'css'">CSS</li>
+          <li nz-menu-item (click)="viewMode = 'json'">JSON</li>
+        </ul>
+      </nz-dropdown-menu>
 
-    <div>
-      <pre class="code pre-style" *ngIf="viewMode === 'css'" [innerHtml]="quillStyle | jsonToCss | highlightCss"></pre>
-      <pre class="code pre-style" *ngIf="viewMode === 'json'"><code class="language-json">{{quillStyle | json}}</code></pre>
+      <div>
+        <pre class="code pre-style" *ngIf="viewMode === 'css'" [innerHtml]="quillStyle | jsonToCss | highlightCss"></pre>
+        <pre class="code pre-style"
+          *ngIf="viewMode === 'json'"><code class="language-json">{{quillStyle | json}}</code></pre>
+      </div>
     </div>
 
   </div>
