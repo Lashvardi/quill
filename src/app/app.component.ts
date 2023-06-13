@@ -47,6 +47,7 @@ export class AppComponent implements OnInit {
     { label: 'Left', value: 'left' },
     { label: 'Center', value: 'center' },
     { label: 'Right', value: 'right' },
+    { label: 'Justify', value: 'justify' },
   ];
 
   // ? Return Icon Class
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
       case 'left': return 'bi bi-text-left';
       case 'center': return 'bi bi-text-center';
       case 'right': return 'bi bi-text-right';
-      case 'justify': return 'bi bi-text-justify';
+      case 'justify': return 'bi bi-justify';
       default: return '';
     }
   }
@@ -229,11 +230,17 @@ export class AppComponent implements OnInit {
     reader.readAsArrayBuffer(file);
   }
 
-addFontFamily(fontName: string) {
-  (this.customStyles.controls.fontFamilies as FormArray).push(this.fb.control(fontName));
+  addFontFamily(fontName: string) {
+    if (!this.addedFontFamilies.includes(fontName)) {
+        this.addedFontFamilies.push(fontName);
+        this.defaultFontFamilies.push(fontName);
+        this.customStyles.controls.fontFamilies.push(this.fb.control(fontName));
 
-  this.addedFontFamilies.push(fontName);
+        this.defaultFontFamilies = [...new Set(this.defaultFontFamilies)];
+    }
 }
+
+
 
 
 
