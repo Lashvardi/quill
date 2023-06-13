@@ -1,7 +1,7 @@
 <!-- Todo: Should Be Styled, And Moved To SCSS Project -->
 
 <div class="container-fluid">
-  <quill-editor [modules]="quillModules" [ngModel]="quillContent" (ngModelChange)="onContentUpdated($event)"
+  <quill-editor [ngModel]="quillContent" (ngModelChange)="onContentUpdated($event)"
     appCustomStyles [config]="customStyles$ | async"></quill-editor>
   <div class="style-editor">
     <h2>Style Editor</h2>
