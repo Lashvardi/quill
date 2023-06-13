@@ -6,6 +6,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { CourseArticleConfig } from './custom-styles.model';
+
 @Directive({
   selector: '[appCustomStyles]',
 })
@@ -17,6 +18,7 @@ export class CustomStylesDirective implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const config = changes['config'].currentValue as CourseArticleConfig | null;
     this.setStyles(config);
+    console.log(config)
   }
 
   setStyles(config: CourseArticleConfig | null) {
