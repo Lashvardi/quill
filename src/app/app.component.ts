@@ -69,7 +69,8 @@ export class AppComponent implements OnInit {
 
 
   //? Fonf Family Options
-  fontFamilies: string[] = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Lucida Console'];
+  defaultFontFamilies: string[] = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Lucida Console'];
+  addedFontFamilies: string[] = [];
 
 
   // ? FontSize Options
@@ -187,14 +188,16 @@ export class AppComponent implements OnInit {
   }
 
 
-  //? Uploading Fonts
   onFileSelected(event: any) {
-    const file: File = event.target.files[0];
+    const files: File[] = event.target.files;
 
-    if (file) {
-      this.uploadFile(file);
+    if (files && files.length) {
+      for (let file of files) {
+        this.uploadFile(file);
+      }
     }
   }
+
   uploadFile(file: File) {
     const reader = new FileReader();
 
@@ -225,11 +228,12 @@ export class AppComponent implements OnInit {
     reader.readAsArrayBuffer(file);
 }
 
-  addFontFamily(fontName: string) {
-    (this.customStyles.controls.fontFamilies as FormArray).push(this.fb.control(fontName));
+addFontFamily(fontName: string) {
+  (this.customStyles.controls.fontFamilies as FormArray).push(this.fb.control(fontName));
 
-    this.fontFamilies.push(fontName);
-  }
+  this.addedFontFamilies.push(fontName);
+}
+
 
 
 

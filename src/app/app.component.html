@@ -9,13 +9,20 @@
       <span>Show Result</span>
     </button>
     <form [formGroup]="customStyles" (input)="customStyles$.next(customStyles.getRawValue())">
+      <!-- Todo: Implementation Of Backend Service Adding Font -->
       <nz-collapse>
         <nz-collapse-panel nzHeader="Fonts">
           <div class="config-box">
-            <input type="file" (change)="onFileSelected($event)">
+            <input type="file" #fileInput (change)="onFileSelected($event)" accept=".ttf,.otf,.woff,.woff2" multiple style="display: none;">
+            <button nz-button (click)="fileInput.click()">Add Fonts</button>
+
+            <!-- Display added fonts -->
+            <div *ngFor="let font of addedFontFamilies"><span class="bold">Font-Familty:</span>{{ font }}</div>
           </div>
         </nz-collapse-panel>
       </nz-collapse>
+
+
       <div formGroupName="elements">
         <!-- ? ----  Divider ---- -->
         <nz-collapse>
@@ -31,7 +38,7 @@
               <div class="config-item">
                 <label for="h1-font">Font Family </label>
                 <nz-select id="h1-font" formControlName="fontFamily" nzAllowClear nzPlaceHolder="Choose font family">
-                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                  <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
 
@@ -81,7 +88,7 @@
               <div class="config-item">
                 <label for="h2-font">Font Family </label>
                 <nz-select id="h2-font" formControlName="fontFamily" nzAllowClear nzPlaceHolder="Choose font family">
-                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                  <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
 
@@ -135,7 +142,7 @@
               <div class="config-item">
                 <label for="h3-font">Font Family </label>
                 <nz-select id="h3-font" formControlName="fontFamily" nzAllowClear nzPlaceHolder="Choose font family">
-                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                  <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
 
@@ -191,7 +198,7 @@
                 <label for="p-font-family">Font Family </label>
                 <nz-select id="p-font-family" formControlName="fontFamily" nzAllowClear
                   nzPlaceHolder="Choose font family">
-                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                  <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
 
@@ -244,7 +251,7 @@
                 <label for="a-font-family">Font Family </label>
                 <nz-select id="a-font-family" formControlName="fontFamily" nzAllowClear
                   nzPlaceHolder="Choose font family">
-                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                  <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
 
@@ -286,7 +293,7 @@
                 <label for="bq-font-family">Font Family </label>
                 <nz-select id="bq-font-family" formControlName="fontFamily" nzAllowClear
                   nzPlaceHolder="Choose font family">
-                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                  <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
 
