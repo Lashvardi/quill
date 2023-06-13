@@ -12,11 +12,13 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 // * Ng Zorro Modules
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 registerLocaleData(en);
 
@@ -31,7 +33,9 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     NzCollapseModule,
     NzButtonModule,
-    NzModalModule
+    NzModalModule,
+    NzSelectModule,
+    ColorPickerModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }

@@ -55,4 +55,5 @@ export type ElementName =
   | 'a'
   | 'mark'
   | 'blockquote'
+  | '.test_box'
   | 'img';

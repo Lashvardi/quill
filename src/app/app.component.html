@@ -6,170 +6,308 @@
   <div class="style-editor">
     <h2>Test styles</h2>
     <button nz-button nzType="primary" (click)="showModal()">
-      <span>Show Modal</span>
+      <span>Show Result</span>
     </button>
     <form [formGroup]="customStyles" (input)="customStyles$.next(customStyles.getRawValue())">
       <div formGroupName="elements">
         <!-- ? ----  Divider ---- -->
         <nz-collapse>
           <nz-collapse-panel nzHeader="H1" [nzActive]="true">
-            <div formGroupName="h1">
+            <div formGroupName="h1" class="config-box">
               <h3>H1</h3>
-              <!-- * Changed To Color Picker -->
-              <div>
+
+              <div class="color-picker-box">
                 <label for="h1-color">Color</label>
                 <input id="h1-color" type="color" formControlName="color" />
               </div>
 
-              <div>
+              <div class="config-item">
                 <label for="h1-font">Font Family </label>
-                <input id="h1-font" type="text" formControlName="fontFamily" />
-              </div>
-              <div>
-                <label for="h1-font-size">Font Size </label>
-                <input id="h1-font-size" type="text" formControlName="fontSize" />
+                <nz-select id="h1-font" formControlName="fontFamily" nzAllowClear nzPlaceHolder="Choose font family">
+                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                </nz-select>
               </div>
 
-              <div>
-                <label for="h1-textAlign">Text Align </label>
-                <select id="h1-textAlign" formControlName="textAlign">
-                  <option *ngFor="let option of textAlignOptions" [value]="option.value">
-                    {{option.label}}
-                  </option>
-                </select>
+              <div class="config-item">
+                <label for="h1-fontStyle">Font Style</label>
+                <nz-select id="h1-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
+                    [nzLabel]="style.label"></nz-option>
+                </nz-select>
               </div>
+
+              <div class="config-item">
+                <label for="h1-font-size">Font Size </label>
+                <nz-select formGroupName="h1" id="h1-font-size" formControlName="fontSize"
+                  nzPlaceHolder="Select font size">
+                  <nz-option *ngFor="let size of sizes" [nzValue]="size + 'px'" [nzLabel]="size + 'px'"></nz-option>
+                </nz-select>
+              </div>
+
+              <div class="config-item">
+                <label for="h1-textAlign">Text Align </label>
+                <div class="text-align-buttons">
+                  <button *ngFor="let option of textAlignOptions" class="textAlignButton"
+                    (click)="customStyles.get('elements.h1.textAlign')?.setValue(option.value)">
+                    <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
+                  </button>
+                </div>
+              </div>
+
             </div>
           </nz-collapse-panel>
         </nz-collapse>
+
 
         <nz-collapse>
           <nz-collapse-panel nzHeader="H2">
-            <div formGroupName="h2">
+            <div formGroupName="h2" class="config-box">
               <h3>H2</h3>
-              <div>
-                <label for="h2-color">Color </label>
+
+              <!-- Color Picker -->
+              <div class="color-picker-box">
+                <label for="h2-color">Color</label>
                 <input id="h2-color" type="color" formControlName="color" />
               </div>
-              <div>
+
+              <!-- Font Family -->
+              <div class="config-item">
                 <label for="h2-font">Font Family </label>
-                <input id="h2-font" type="text" formControlName="fontFamily" />
-              </div>
-              <div>
-                <label for="h2-font-size">Font Size </label>
-                <input id="h2-font-size" type="text" formControlName="fontSize" />
+                <nz-select id="h2-font" formControlName="fontFamily" nzAllowClear nzPlaceHolder="Choose font family">
+                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                </nz-select>
               </div>
 
-              <div>
-                <label for="h2-textAlign">Text Align </label>
-                <select id="h2-textAlign" formControlName="textAlign">
-                  <option *ngFor="let option of textAlignOptions" [value]="option.value">
-                    {{option.label}}
-                  </option>
-                </select>
+
+              <!-- font Style -->
+              <div class="config-item">
+                <label for="h2-fontStyle">Font Style</label>
+                <nz-select id="h2-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
+                    [nzLabel]="style.label"></nz-option>
+                </nz-select>
               </div>
+
+
+              <!-- Font Size -->
+              <div class="config-item">
+                <label for="h2-font-size">Font Size </label>
+                <nz-select id="h2-font-size" formControlName="fontSize" nzPlaceHolder="Select font size">
+                  <nz-option *ngFor="let size of sizes" [nzValue]="size + 'px'" [nzLabel]="size + 'px'"></nz-option>
+                </nz-select>
+              </div>
+
+              <!-- Text Align -->
+              <div class="config-item">
+                <label for="h2-textAlign">Text Align </label>
+                <div id="h2-textAlign" formControlName="textAlign">
+                  <button *ngFor="let option of textAlignOptions" class="textAlignButton"
+                    (click)="customStyles.get('elements.h2.textAlign')?.setValue(option.value)">
+                    <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
+                  </button>
+                </div>
+              </div>
+
             </div>
           </nz-collapse-panel>
         </nz-collapse>
 
 
         <nz-collapse>
-          <nz-collapse-panel nzHeader="h3">
-            <div formGroupName="h3">
+          <nz-collapse-panel nzHeader="H3">
+            <div formGroupName="h3" class="config-box">
               <h3>H3</h3>
-              <div>
-                <label for="h3-color">Color </label>
+
+              <!-- Color Picker -->
+              <div class="color-picker-box">
+                <label for="h3-color">Color</label>
                 <input id="h3-color" type="color" formControlName="color" />
               </div>
-              <div>
+
+              <!-- Font Family -->
+              <div class="config-item">
                 <label for="h3-font">Font Family </label>
-                <input id="h3-font" type="text" formControlName="fontFamily" />
-              </div>
-              <div>
-                <label for="h3-font-size">Font Size </label>
-                <input id="h3-font-size" type="text" formControlName="fontSize" />
+                <nz-select id="h3-font" formControlName="fontFamily" nzAllowClear nzPlaceHolder="Choose font family">
+                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                </nz-select>
               </div>
 
-              <div>
-                <label for="h3-textAlign">Text Align </label>
-                <select id="h3-textAlign" formControlName="textAlign">
-                  <option *ngFor="let option of textAlignOptions" [value]="option.value">
-                    {{option.label}}
-                  </option>
-                </select>
+              <!-- font Style -->
+              <div class="config-item">
+                <label for="h3-fontStyle">Font Style</label>
+                <nz-select id="h3-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
+                    [nzLabel]="style.label"></nz-option>
+                </nz-select>
               </div>
+
+
+
+              <!-- Font Size -->
+              <div class="config-item">
+                <label for="h3-font-size">Font Size </label>
+                <nz-select id="h3-font-size" formControlName="fontSize" nzPlaceHolder="Select font size">
+                  <nz-option *ngFor="let size of sizes" [nzValue]="size + 'px'" [nzLabel]="size + 'px'"></nz-option>
+                </nz-select>
+              </div>
+
+              <!-- Text Align -->
+              <div class="config-item">
+                <label for="h3-textAlign">Text Align </label>
+                <div id="h3-textAlign" formControlName="textAlign">
+                  <button *ngFor="let option of textAlignOptions" class="textAlignButton"
+                    (click)="customStyles.get('elements.h3.textAlign')?.setValue(option.value)">
+                    <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
+                  </button>
+                </div>
+              </div>
+
             </div>
           </nz-collapse-panel>
         </nz-collapse>
-
-
 
 
 
         <nz-collapse>
-          <nz-collapse-panel nzHeader="P (Normal)">
-            <div formGroupName="p">
-              <h3>P (Normal)</h3>
-              <div>
-                <label for="p-color">Color </label>
+          <nz-collapse-panel nzHeader="P (Default)">
+            <div formGroupName="p" class="config-box">
+              <h3>P (Default)</h3>
+
+              <!-- Color Picker -->
+              <div class="color-picker-box">
+                <label for="p-color">Color</label>
                 <input id="p-color" type="color" formControlName="color" />
               </div>
-              <div>
+
+              <!-- Font Family -->
+              <div class="config-item">
                 <label for="p-font-family">Font Family </label>
-                <input id="p-font-family" type="text" formControlName="fontFamily" />
-              </div>
-              <div>
-                <label for="p-font-size">Font Size </label>
-                <input id="p-font-size" type="text" formControlName="fontSize" />
+                <nz-select id="p-font-family" formControlName="fontFamily" nzAllowClear
+                  nzPlaceHolder="Choose font family">
+                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                </nz-select>
               </div>
 
-              <div>
-                <label for="p-textAlign">Text Align </label>
-                <select id="p-textAlign" formControlName="textAlign">
-                  <option *ngFor="let option of textAlignOptions" [value]="option.value">
-                    {{option.label}}
-                  </option>
-                </select>
+              <!-- font Style -->
+              <div class="config-item">
+                <label for="p-fontStyle">Font Style</label>
+                <nz-select id="p-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
+                    [nzLabel]="style.label"></nz-option>
+                </nz-select>
               </div>
+
+              <!-- Font Size -->
+              <div class="config-item">
+                <label for="p-font-size">Font Size </label>
+                <nz-select id="p-font-size" formControlName="fontSize" nzPlaceHolder="Select font size">
+                  <nz-option *ngFor="let size of sizes" [nzValue]="size + 'px'" [nzLabel]="size + 'px'"></nz-option>
+                </nz-select>
+              </div>
+
+              <!-- Text Align -->
+              <div class="config-item">
+                <label for="p-textAlign">Text Align </label>
+                <div id="p-textAlign" formControlName="textAlign">
+                  <button *ngFor="let option of textAlignOptions" class="textAlignButton"
+                    (click)="customStyles.get('elements.p.textAlign')?.setValue(option.value)">
+                    <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
+                  </button>
+                </div>
+              </div>
+
             </div>
           </nz-collapse-panel>
         </nz-collapse>
+
 
         <nz-collapse>
           <nz-collapse-panel nzHeader="a (Link)">
-            <div formGroupName="a">
+            <div formGroupName="a" class="config-box">
               <h3>a (Link)</h3>
-              <div>
-                <label for="a-color">Color </label>
+
+              <!-- Color Picker -->
+              <div class="color-picker-box">
+                <label for="a-color">Color</label>
                 <input id="a-color" type="color" formControlName="color" />
               </div>
-              <div>
+
+              <!-- Font Family -->
+              <div class="config-item">
                 <label for="a-font-family">Font Family </label>
-                <input id="a-font-family" type="text" formControlName="fontFamily" />
+                <nz-select id="a-font-family" formControlName="fontFamily" nzAllowClear
+                  nzPlaceHolder="Choose font family">
+                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                </nz-select>
               </div>
-              <div>
+
+              <!-- font Style -->
+              <div class="config-item">
+                <label for="a-fontStyle">Font Style</label>
+                <nz-select id="a-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
+                    [nzLabel]="style.label"></nz-option>
+                </nz-select>
+              </div>
+
+              <!-- Font Size -->
+              <div class="config-item">
                 <label for="a-font-size">Font Size </label>
-                <input id="a-font-size" type="text" formControlName="fontSize" />
+                <nz-select id="a-font-size" formControlName="fontSize" nzPlaceHolder="Select font size">
+                  <nz-option *ngFor="let size of sizes" [nzValue]="size + 'px'" [nzLabel]="size + 'px'"></nz-option>
+                </nz-select>
               </div>
+
             </div>
           </nz-collapse-panel>
         </nz-collapse>
 
+
         <nz-collapse>
           <nz-collapse-panel nzHeader="blockquote">
-            <div formGroupName="blockquote">
+            <div formGroupName="blockquote" class="config-box">
               <h3>Blockquote</h3>
-              <div>
-                <label for="bq-color">Color </label>
-                <input id="bq-color" type="text" formControlName="color" />
+
+              <!-- Color Picker -->
+              <div class="color-picker-box">
+                <label for="bq-color">Color</label>
+                <input id="bq-color" type="color" formControlName="color" />
               </div>
-              <div>
+
+              <!-- Font Family -->
+              <div class="config-item">
                 <label for="bq-font-family">Font Family </label>
-                <input id="bq-font-family" type="text" formControlName="fontFamily" />
+                <nz-select id="bq-font-family" formControlName="fontFamily" nzAllowClear
+                  nzPlaceHolder="Choose font family">
+                  <nz-option *ngFor="let font of fontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
+                </nz-select>
               </div>
-              <div>
+
+              <!-- Font Size -->
+              <div class="config-item">
                 <label for="bq-font-size">Font Size </label>
-                <input id="bq-font-size" type="text" formControlName="fontSize" />
+                <nz-select id="bq-font-size" formControlName="fontSize" nzPlaceHolder="Select font size">
+                  <nz-option *ngFor="let size of sizes" [nzValue]="size + 'px'" [nzLabel]="size + 'px'"></nz-option>
+                </nz-select>
               </div>
+
+            </div>
+          </nz-collapse-panel>
+        </nz-collapse>
+
+
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="Background-Color">
+            <!-- ? For Now This Works On Class In Further Could Be Body Element -->
+            <div formGroupName=".test_box" class="config-box">
+              <h3>Background Color</h3>
+
+              <!-- Background Color Picker -->
+              <div class="color-picker-box">
+                <label for="bg-color">Color</label>
+                <input id="bg-color" type="color" formControlName="backgroundColor" />
+              </div>
+
             </div>
           </nz-collapse-panel>
         </nz-collapse>
@@ -181,7 +319,24 @@
 
 
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Result" (nzOnCancel)="handleCancel()" (nzOnOk)="handleCancel()">
-  <div *nzModalContent class="output" [innerHTML]="quillContent" appCustomStyles [config]="customStyles$ | async">
-  </div>
 
+  <div *nzModalContent>
+    <div class="output" [innerHTML]="quillContent" appCustomStyles [config]="customStyles$ | async">
+
+    </div>
+
+    <!-- ? When i have [innerHTML] and appCustomStyles together it is not working.-->
+    <div appCustomStyles [config]="customStyles$ | async">
+      <div class="test_box">
+
+      </div>
+    </div>
+
+    <div>
+      <pre class="code pre-style">{{quillStyle | json}}</pre>
+    </div>
+
+
+
+  </div>
 </nz-modal>

@@ -9,6 +9,7 @@
 
 quill-editor {
   overflow-y: scroll;
+  height: 100vh;
 }
 
 
@@ -57,6 +58,103 @@ quill-editor {
 .accordion-content {
   padding: 10px;
 }
+
+
+
+.test_box{
+  width: 100px;
+  height: 100px;
+  background-color: blueviolet;
+}
+
+
+
+.textAlignButton {
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+  color: #333333;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 5px;
+  &:hover {
+    background-color: #008CBA;
+    color: white;
+  }
+}
+
+.config-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  .color-picker-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    padding: 10px;
+
+    label {
+        font-size: 14px;
+        color: #595959;
+    }
+
+    input {
+      width: 100%;
+      height: 40px;
+      border: 0;
+    }
+  }
+
+  .config-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .text-align-buttons {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}
+
+.pre-style {
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  overflow: auto;
+  max-height: 200px;
+  font-size: 14px;
+  color: #333;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.css-property {
+  color: #2b91af;
+  font-weight: bold;
+}
+
+.css-brace {
+  color: #999;
+}
+
+
+
+
+
+
+
+
+
 
 
 
