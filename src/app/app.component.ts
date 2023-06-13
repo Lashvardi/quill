@@ -11,6 +11,14 @@ import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 export class AppComponent implements OnInit {
   quillContent = '';
   quillStyle: object = {};
+  viewMode: 'css' | 'json' = 'css'; // default to CSS view
+
+  quillModules = {
+    toolbar: [
+      // your toolbar options
+    ],
+    imageResize: true,  // add this line
+  };
 
 
   someConfig: CourseArticleConfig = {

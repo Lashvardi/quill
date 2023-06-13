@@ -19,11 +19,13 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-
+import { JsonToCssPipe } from './pipes/json-to-css.pipe';
+import { HighlightCssPipe } from './pipes/high-light-css.pipe';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, CustomStylesDirective, OutputComponent],
+  declarations: [AppComponent, CustomStylesDirective, OutputComponent, JsonToCssPipe, HighlightCssPipe],
   imports: [
     BrowserModule,
     FormsModule,
@@ -36,6 +38,7 @@ registerLocaleData(en);
     NzModalModule,
     NzSelectModule,
     ColorPickerModule,
+    NzDropDownModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }

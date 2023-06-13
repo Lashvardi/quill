@@ -31,11 +31,9 @@
             ],
             "styles": [
               "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
-              "src/styles.less",
-              "node_modules/prismjs/themes/prism.css"
+              "src/styles.less"
             ],
             "scripts": [
-              "node_modules/prismjs/prism.js"
             ]
           },
           "configurations": {
