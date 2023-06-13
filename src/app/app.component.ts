@@ -211,7 +211,8 @@ export class AppComponent implements OnInit {
       // Create a URL for the blob object
       const blobURL = URL.createObjectURL(blob);
 
-      // Add the @font-face rule to the stylesheet
+      //? Add the @font-face rule to the stylesheet
+      //? Creates Separate StyleSheet For FontFaces
       const style = document.createElement('style');
       style.textContent = `
         @font-face {
@@ -226,7 +227,7 @@ export class AppComponent implements OnInit {
     };
 
     reader.readAsArrayBuffer(file);
-}
+  }
 
 addFontFamily(fontName: string) {
   (this.customStyles.controls.fontFamilies as FormArray).push(this.fb.control(fontName));
