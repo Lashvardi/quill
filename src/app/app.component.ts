@@ -17,9 +17,8 @@ export class AppComponent implements OnInit {
     toolbar: [
       // your toolbar options
     ],
-    imageResize: true,  // add this line
+    imageResize: true, // add this line
   };
-
 
   someConfig: CourseArticleConfig = {
     fontFamilies: ['Helvetica', 'Arial', 'Roboto'],
@@ -53,11 +52,16 @@ export class AppComponent implements OnInit {
   // ? Return Icon Class
   getIconClass(value: string) {
     switch (value) {
-      case 'left': return 'bi bi-text-left';
-      case 'center': return 'bi bi-text-center';
-      case 'right': return 'bi bi-text-right';
-      case 'justify': return 'bi bi-justify';
-      default: return '';
+      case 'left':
+        return 'bi bi-text-left';
+      case 'center':
+        return 'bi bi-text-center';
+      case 'right':
+        return 'bi bi-text-right';
+      case 'justify':
+        return 'bi bi-justify';
+      default:
+        return '';
     }
   }
 
@@ -66,16 +70,23 @@ export class AppComponent implements OnInit {
     { label: 'Normal', value: 'normal' },
     { label: 'Italic', value: 'italic' },
     { label: 'Oblique', value: 'oblique' },
-  ]
-
+  ];
 
   //? Fonf Family Options
-  defaultFontFamilies: string[] = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Lucida Console'];
+  defaultFontFamilies: string[] = [
+    'Arial',
+    'Helvetica',
+    'Times New Roman',
+    'Courier New',
+    'Lucida Console',
+  ];
   addedFontFamilies: string[] = [];
 
-
   // ? FontSize Options
-  sizes: number[] = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 48, 60, 72];
+  sizes: number[] = [
+    8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 48, 60,
+    72,
+  ];
   color: string = '#000000';
 
   customStyles = this.fb.group({
@@ -83,6 +94,7 @@ export class AppComponent implements OnInit {
     globalFontFamily: 'Helvetica',
     elements: this.fb.group({
       h1: this.fb.group({
+        // ! Appp APP
         color: 'black',
         fontFamily: 'Helvetica',
         fontSize: '2rem',
@@ -131,8 +143,7 @@ export class AppComponent implements OnInit {
   });
 
   customStyles$ = new BehaviorSubject<CourseArticleConfig>(
-    this.quillStyle  = this.customStyles.getRawValue()
-
+    (this.quillStyle = this.customStyles.getRawValue())
   );
 
   constructor(private fb: NonNullableFormBuilder) {}
@@ -147,9 +158,7 @@ export class AppComponent implements OnInit {
     this.customStyles.valueChanges.subscribe((value) => {
       this.customStyles$.next(this.customStyles.getRawValue());
     });
-
   }
-
 
   onContentUpdated(newContent: string) {
     this.quillContent = newContent;
@@ -160,9 +169,6 @@ export class AppComponent implements OnInit {
     console.log(this.quillContent);
   }
 
-
-
-
   // Modal Code
   isVisible = false;
   isOkLoading = false;
@@ -171,10 +177,8 @@ export class AppComponent implements OnInit {
     this.isVisible = true;
 
     // ?  Updating Values of the QuillStyle When Oppening Modal
-    this.quillStyle  = this.customStyles.getRawValue()
+    this.quillStyle = this.customStyles.getRawValue();
   }
-
-
 
   handleOk(): void {
     this.isOkLoading = true;
@@ -187,7 +191,6 @@ export class AppComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
   }
-
 
   onFileSelected(event: any) {
     const files: File[] = event.target.files;
@@ -232,18 +235,11 @@ export class AppComponent implements OnInit {
 
   addFontFamily(fontName: string) {
     if (!this.addedFontFamilies.includes(fontName)) {
-        this.addedFontFamilies.push(fontName);
-        this.defaultFontFamilies.push(fontName);
-        this.customStyles.controls.fontFamilies.push(this.fb.control(fontName));
+      this.addedFontFamilies.push(fontName);
+      this.defaultFontFamilies.push(fontName);
+      this.customStyles.controls.fontFamilies.push(this.fb.control(fontName));
 
-        this.defaultFontFamilies = [...new Set(this.defaultFontFamilies)];
+      this.defaultFontFamilies = [...new Set(this.defaultFontFamilies)];
     }
-}
-
-
-
-
-
-
-
+  }
 }

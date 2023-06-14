@@ -17,8 +17,9 @@ export class CustomStylesDirective implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const config = changes['config'].currentValue as CourseArticleConfig | null;
-    this.setStyles(config);
-    console.log(config)
+    setTimeout(() => {
+      this.setStyles(config);
+    }, 300); // ? Added Timeout to fix the issue (Not the best solution)
   }
 
   setStyles(config: CourseArticleConfig | null) {
@@ -40,7 +41,7 @@ export class CustomStylesDirective implements OnChanges {
             }
           });
         } else {
-          console.error(
+          console.warn(
             'Could not select the element: ' + tag,
             this.hostElement
           );
