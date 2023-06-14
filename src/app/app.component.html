@@ -1,7 +1,7 @@
 <!-- Todo: Should Be Styled, And Moved To SCSS Project -->
 
 <div class="container-fluid">
-  <quill-editor [ngModel]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async"></quill-editor>
+  <quill-editor  [ngModel]="quillContent$ | async" [modules]="quillModules" appCustomStyles [config]="customStyles$ | async"></quill-editor>
   <div class="style-editor">
     <h2>Style Editor</h2>
     <button nz-button nzType="primary" (click)="showModal()">
@@ -223,6 +223,24 @@
                 </nz-select>
               </div>
 
+              <div class="config-item">
+                <label for="p-lineHeight">Line Height</label>
+                <nz-select id="p-lineHeight" formControlName="lineHeight" nzAllowClear nzPlaceHolder="Line Height">
+                  <nz-option *ngFor="let height of lineHeightOptions" [nzValue]="height + 'px'" [nzLabel]="height + 'px'">
+                  </nz-option>
+                </nz-select>
+              </div>
+
+
+              <div class="config-item">
+                <label for="p-letterSpacing">Letter Spacing</label>
+                <nz-select id="p-letterSpacing" formControlName="letterSpacing" nzAllowClear nzPlaceHolder="Letter Spacing">
+                  <nz-option *ngFor="let spacing of letterSpacingOptions" [nzValue]="spacing + 'px'" [nzLabel]="spacing + 'px'" >
+
+                  </nz-option>
+                </nz-select>
+              </div>
+
               <!-- Font Size -->
               <div class="config-item">
                 <label for="p-font-size">Font Size </label>
@@ -338,6 +356,19 @@
           </nz-collapse-panel>
         </nz-collapse>
 
+
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="Mark Color">
+            <div formGroupName="markColor" class="config-box">
+              <div class="color-picker-box">
+                <label for="mark-color">Color</label>
+                <input id="mark-color" type="color" formControlName="backgroundColor" />
+              </div>
+            </div>
+          </nz-collapse-panel>
+        </nz-collapse>
+        
+        
       </div>
     </form>
   </div>

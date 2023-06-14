@@ -19,7 +19,8 @@ export class HighlightCssPipe implements PipeTransform {
       'backgroundColor',
       'border',
       'margin',
-      'padding'
+      'padding',
+      'borderRadius'
     ];
 
     const values = css.match(/:.*?;/g)?.map(s => s.slice(1, -1).trim()) || [];

@@ -1,7 +1,14 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { FormArray, NonNullableFormBuilder } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
+import { QuillEditorComponent, QuillModules } from 'ngx-quill';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +18,41 @@ import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 export class AppComponent implements OnInit {
   quillContent$: Observable<string | null> = of(null);
   quillStyle: object = {};
-  viewMode: 'css' | 'json' = 'css'; // default to CSS view
+  viewMode: 'css' | 'json' = 'css';
 
-  quillModules = {
+  // ? Limitation Of Mark Color
+  customBackgroundColorPalette: string[] = ['#cfcf'];
+
+  quillModules: QuillModules = {
+    // ? Commented Parts Which I Thought Are Not Needed
     toolbar: [
-      // your toolbar options
+      [
+        //'bold',
+        //'italic',
+        //'underline',
+        //'strike',
+        'blockquote',
+        'code-block',
+        { header: 1 },
+        { header: 2 },
+        //{ list: 'ordered' },
+        //{ list: 'bullet' },
+        //{ script: 'sub' },
+        //{ script: 'super' },
+        //{ indent: '-1' },
+        //{ indent: '+1' },
+        //{ direction: 'rtl' },
+        //{ size: ['small', false, 'large', 'huge'] },
+        { header: [1, 2, 3, 4, 5, 6, false] },
+        //{ font: [] },
+        //{ align: [] },
+        'link',
+        'image',
+        'video',
+        'clean',
+      ],
+      [{ background: this.customBackgroundColorPalette }],
     ],
-    imageResize: true, // add this line
   };
 
   someConfig: CourseArticleConfig = {
@@ -87,8 +122,12 @@ export class AppComponent implements OnInit {
     8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 48, 60,
     72,
   ];
-  color: string = '#000000';
 
+  //? Spacing && Line Height Options
+  lineHeightOptions: number[] = [1, 1.15, 1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 9];
+  letterSpacingOptions: number[] = [0, 0.5, 1, 1.5, 2, 2.5, 3];
+
+  // * Form Group
   customStyles = this.fb.group({
     fontFamilies: this.fb.array(['Helvetica', 'Serif']),
     globalFontFamily: 'Helvetica',
@@ -124,6 +163,8 @@ export class AppComponent implements OnInit {
         fontSize: '1.2rem',
         textAlign: 'left',
         fontStyle: 'normal',
+        lineHeight: '1.5',
+        letterSpacing: '0',
       }),
       blockquote: this.fb.group({
         color: 'gray',
@@ -138,6 +179,9 @@ export class AppComponent implements OnInit {
       }),
       '.test_box': this.fb.group({
         backgroundColor: 'black',
+      }),
+      markColor: this.fb.group({
+        backgroundColor: 'yellow',
       }),
     }),
   });
@@ -171,14 +215,6 @@ export class AppComponent implements OnInit {
     this.quillStyle = this.customStyles.getRawValue();
   }
 
-  handleOk(): void {
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isOkLoading = false;
-    }, 3000);
-  }
-
   handleCancel(): void {
     this.isVisible = false;
   }
@@ -208,6 +244,7 @@ export class AppComponent implements OnInit {
 
       //? Add the @font-face rule to the stylesheet
       //? Creates Separate StyleSheet For FontFaces
+      //! Not The Best Solution
       const style = document.createElement('style');
       style.textContent = `
         @font-face {
@@ -247,7 +284,7 @@ export class AppComponent implements OnInit {
         fontControl.removeAt(fontIndexControl);
       }
 
-      // Remove the font styles from the document's head
+      //! Remove the font styles from the document's head (Not Best Solution For angular)
       const styleElements = Array.from(
         document.head.querySelectorAll(`style[data-font-name="${fontName}"]`)
       );

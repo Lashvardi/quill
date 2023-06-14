@@ -13,7 +13,10 @@ import { CourseArticleConfig } from './custom-styles.model';
 export class CustomStylesDirective implements OnChanges {
   @Input() config!: CourseArticleConfig | null;
 
-  constructor(private hostElement: ElementRef) {}
+  constructor(private hostElement: ElementRef) { }
+  
+
+
 
   ngAfterViewInit(): void {
     this.setStyles(this.config);
