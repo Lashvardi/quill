@@ -255,10 +255,10 @@ export class AppComponent implements OnInit {
         element.remove();
       });
 
-      // Update the default font families
-      this.defaultFontFamilies = this.defaultFontFamilies.filter(
-        (family) => family !== fontName
-      );
+      // Update the default font families if the font is not already in the array
+      if (!this.defaultFontFamilies.includes(fontName)) {
+        this.defaultFontFamilies.push(fontName);
+      }
     }
   }
 }
