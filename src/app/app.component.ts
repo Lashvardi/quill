@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { FormArray, NonNullableFormBuilder } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 
 @Component({
@@ -9,7 +9,7 @@ import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
   styleUrls: ['./app.component.less'],
 })
 export class AppComponent implements OnInit {
-  quillContent = '';
+  quillContent$: Observable<string | null> = of(null);
   quillStyle: object = {};
   viewMode: 'css' | 'json' = 'css'; // default to CSS view
 
@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
     elements: this.fb.group({
       h1: this.fb.group({
         // ! Appp APP
-        color: 'black',
+        color: 'red',
         fontFamily: 'Helvetica',
         fontSize: '2rem',
         textAlign: 'left',
@@ -149,24 +149,15 @@ export class AppComponent implements OnInit {
   constructor(private fb: NonNullableFormBuilder) {}
 
   ngOnInit() {
-    const savedContent = localStorage.getItem('editor_content');
-    if (savedContent) {
-      this.quillContent = savedContent;
-    }
+    this.quillContent$ = of(localStorage.getItem('editor_content'));
 
-    // ! Removed Timeout It was causing The Issue of not loading the content properly
     this.customStyles.valueChanges.subscribe((value) => {
       this.customStyles$.next(this.customStyles.getRawValue());
     });
   }
 
-  onContentUpdated(newContent: string) {
-    this.quillContent = newContent;
-    localStorage.setItem('editor_content', this.quillContent);
-  }
-
   onSubmit() {
-    console.log(this.quillContent);
+    console.log(this.quillContent$);
   }
 
   // Modal Code
@@ -240,6 +231,34 @@ export class AppComponent implements OnInit {
       this.customStyles.controls.fontFamilies.push(this.fb.control(fontName));
 
       this.defaultFontFamilies = [...new Set(this.defaultFontFamilies)];
+    }
+  }
+
+  removeFontFamily(fontName: string) {
+    const fontIndex = this.addedFontFamilies.indexOf(fontName);
+    if (fontIndex !== -1) {
+      this.addedFontFamilies.splice(fontIndex, 1);
+
+      const fontControl = this.customStyles.controls.fontFamilies as FormArray;
+      const fontIndexControl = fontControl.controls.findIndex(
+        (control) => control.value === fontName
+      );
+      if (fontIndexControl !== -1) {
+        fontControl.removeAt(fontIndexControl);
+      }
+
+      // Remove the font styles from the document's head
+      const styleElements = Array.from(
+        document.head.querySelectorAll(`style[data-font-name="${fontName}"]`)
+      );
+      styleElements.forEach((element) => {
+        element.remove();
+      });
+
+      // Update the default font families
+      this.defaultFontFamilies = this.defaultFontFamilies.filter(
+        (family) => family !== fontName
+      );
     }
   }
 }

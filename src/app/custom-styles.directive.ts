@@ -15,6 +15,10 @@ export class CustomStylesDirective implements OnChanges {
 
   constructor(private hostElement: ElementRef) {}
 
+  ngAfterViewInit(): void {
+    this.setStyles(this.config);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     const config = changes['config'].currentValue as CourseArticleConfig | null;
     setTimeout(() => {

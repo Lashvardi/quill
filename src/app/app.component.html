@@ -1,8 +1,7 @@
 <!-- Todo: Should Be Styled, And Moved To SCSS Project -->
 
 <div class="container-fluid">
-  <quill-editor [ngModel]="quillContent" (ngModelChange)="onContentUpdated($event)" appCustomStyles
-    [config]="customStyles$ | async"></quill-editor>
+  <quill-editor [ngModel]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async"></quill-editor>
   <div class="style-editor">
     <h2>Style Editor</h2>
     <button nz-button nzType="primary" (click)="showModal()">
@@ -13,11 +12,24 @@
       <nz-collapse>
         <nz-collapse-panel nzHeader="Fonts">
           <div class="config-box">
-            <input type="file" #fileInput (change)="onFileSelected($event)" accept=".ttf,.otf,.woff,.woff2" multiple style="display: none;">
+            <input type="file" #fileInput (change)="onFileSelected($event)" accept=".ttf,.otf,.woff,.woff2" multiple
+              style="display: none;">
             <button nz-button (click)="fileInput.click()">Add Fonts</button>
 
-            <!-- Display added fonts -->
-            <div *ngFor="let font of addedFontFamilies"><span class="bold">Font-Familty:</span>{{ font }}</div>
+            <div *ngFor="let font of addedFontFamilies" class="font-item">
+              <nz-row nzGutter="16">
+                <nz-col nzSpan="12">
+                  <span class="bold">Font-Family:</span> {{ font }}
+                </nz-col>
+                <nz-col nzSpan="12" class="text-right">
+                  <button nz-button nzType="default" nzSize="small" (click)="removeFontFamily(font)">
+                    <i nz-icon nzType="delete"></i> Remove
+                  </button>
+                </nz-col>
+              </nz-row>
+            </div>
+            
+
           </div>
         </nz-collapse-panel>
       </nz-collapse>
@@ -45,8 +57,8 @@
               <div class="config-item">
                 <label for="h1-fontStyle">Font Style</label>
                 <nz-select id="h1-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
-                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
-                    [nzLabel]="style.label"></nz-option>
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value" [nzLabel]="style.label">
+                  </nz-option>
                 </nz-select>
               </div>
 
@@ -97,8 +109,8 @@
               <div class="config-item">
                 <label for="h2-fontStyle">Font Style</label>
                 <nz-select id="h2-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
-                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
-                    [nzLabel]="style.label"></nz-option>
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value" [nzLabel]="style.label">
+                  </nz-option>
                 </nz-select>
               </div>
 
@@ -150,8 +162,8 @@
               <div class="config-item">
                 <label for="h3-fontStyle">Font Style</label>
                 <nz-select id="h3-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
-                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
-                    [nzLabel]="style.label"></nz-option>
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value" [nzLabel]="style.label">
+                  </nz-option>
                 </nz-select>
               </div>
 
@@ -206,8 +218,8 @@
               <div class="config-item">
                 <label for="p-fontStyle">Font Style</label>
                 <nz-select id="p-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
-                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
-                    [nzLabel]="style.label"></nz-option>
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value" [nzLabel]="style.label">
+                  </nz-option>
                 </nz-select>
               </div>
 
@@ -259,8 +271,8 @@
               <div class="config-item">
                 <label for="a-fontStyle">Font Style</label>
                 <nz-select id="a-fontStyle" formControlName="fontStyle" nzAllowClear nzPlaceHolder="Choose Font Style">
-                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value"
-                    [nzLabel]="style.label"></nz-option>
+                  <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value" [nzLabel]="style.label">
+                  </nz-option>
                 </nz-select>
               </div>
 
@@ -335,7 +347,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Result" (nzOnCancel)="handleCancel()" (nzOnOk)="handleCancel()">
 
   <div *nzModalContent>
-    <div class="output" [innerHTML]="quillContent" appCustomStyles [config]="customStyles$ | async">
+    <div class="output" [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">
 
     </div>
 

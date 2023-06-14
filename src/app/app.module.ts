@@ -22,6 +22,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { JsonToCssPipe } from './pipes/json-to-css.pipe';
 import { HighlightCssPipe } from './pipes/high-light-css.pipe';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import {NzGridModule} from 'ng-zorro-antd/grid';
 registerLocaleData(en);
 
 @NgModule({
@@ -38,7 +39,8 @@ registerLocaleData(en);
     NzModalModule,
     NzSelectModule,
     ColorPickerModule,
-    NzDropDownModule
+    NzDropDownModule,
+    NzGridModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }
