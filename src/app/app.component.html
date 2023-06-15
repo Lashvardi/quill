@@ -307,38 +307,98 @@
         </nz-collapse>
 
 
-        <nz-collapse>
-          <nz-collapse-panel nzHeader="blockquote">
-            <div formGroupName="blockquote" class="config-box">
-              <h3>Blockquote</h3>
+          <nz-collapse>
+            <nz-collapse-panel nzHeader="blockquote">
+              <div formGroupName="blockquote" class="config-box">
+                <h3>Blockquote</h3>
+        
+                <!-- Color Picker -->
+                <div class="color-picker-box">
+                  <label for="bq-color">Color</label>
+                  <input id="bq-color" type="color" formControlName="color" />
+                </div>
+        
+                <!-- Font Family -->
+                <div class="config-item">
+                  <label for="bq-font-family">Font Family</label>
+                  <nz-select
+                    id="bq-font-family"
+                    formControlName="fontFamily"
+                    nzAllowClear
+                    nzPlaceHolder="Choose font family"
+                  >
+                    <nz-option
+                      *ngFor="let font of defaultFontFamilies"
+                      [nzValue]="font"
+                      [nzLabel]="font"
+                    ></nz-option>
+                  </nz-select>
+                </div>
+        
+                <!-- Font Size -->
+                <div class="config-item">
+                  <label for="bq-font-size">Font Size</label>
+                  <nz-select
+                    id="bq-font-size"
+                    formControlName="fontSize"
+                    nzPlaceHolder="Select font size"
+                  >
+                    <nz-option
+                      *ngFor="let size of sizes"
+                      [nzValue]="size + 'px'"
+                      [nzLabel]="size + 'px'"
+                    ></nz-option>
+                  </nz-select>
+                </div>
+        
+                <!-- Max Width -->
+                <div class="config-item">
+                  <label for="bq-max-width">Max Width</label>
+                  <input
+                    id="bq-max-width"
+                    type="text"
+                    formControlName="maxWidth"
+                  />
+                </div>
+        
+                <!-- Padding -->
+                <div class="config-item">
+                  <label for="bq-padding">Padding</label>
+                  <input
+                    id="bq-padding"
+                    type="text"
+                    formControlName="padding"
+                  />
+                </div>
+        
+                <!-- Margin -->
+                <div class="config-item">
+                  <label for="bq-margin">Margin</label>
+                  <input
+                    id="bq-margin"
+                    type="text"
+                    formControlName="margin"
+                  />
+                </div>
 
-              <!-- Color Picker -->
-              <div class="color-picker-box">
-                <label for="bq-color">Color</label>
-                <input id="bq-color" type="color" formControlName="color" />
+                <!-- ? Border Form Group -->
+                <div formGroupName="border">
+                  <div class="color-picker-box">
+                    <label for="border-color">Border Color</label>
+                    <input class="" id="border-color" type="color" formControlName="color" />
+                  </div>
+
+                  <div class="config-item">
+                    <label for="border-width">Border Top</label>
+                    <input class="" id="border-width" type="text" formControlName="top" />
+                  </div>
+                </div>
+        
               </div>
-
-              <!-- Font Family -->
-              <div class="config-item">
-                <label for="bq-font-family">Font Family </label>
-                <nz-select id="bq-font-family" formControlName="fontFamily" nzAllowClear
-                  nzPlaceHolder="Choose font family">
-                  <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
-                </nz-select>
-              </div>
-
-              <!-- Font Size -->
-              <div class="config-item">
-                <label for="bq-font-size">Font Size </label>
-                <nz-select id="bq-font-size" formControlName="fontSize" nzPlaceHolder="Select font size">
-                  <nz-option *ngFor="let size of sizes" [nzValue]="size + 'px'" [nzLabel]="size + 'px'"></nz-option>
-                </nz-select>
-              </div>
-
-            </div>
-          </nz-collapse-panel>
-        </nz-collapse>
-
+            </nz-collapse-panel>
+          </nz-collapse>
+  
+        
 
         <nz-collapse>
           <nz-collapse-panel nzHeader="Background-Color">

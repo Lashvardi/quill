@@ -170,7 +170,20 @@ export class AppComponent implements OnInit {
         color: 'gray',
         fontFamily: 'serif',
         fontSize: '1.2rem',
+        maxWidth: '100%',
+        padding: '10px',
+        margin: '0',
+        border: this.fb.group({
+          color: 'orange',
+          style: 'solid',
+          radius: '0px',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          left: '10px',
+        }),
       }),
+
       a: this.fb.group({
         color: 'blue',
         fontFamily: 'serif',

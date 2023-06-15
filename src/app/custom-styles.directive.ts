@@ -14,9 +14,6 @@ export class CustomStylesDirective implements OnChanges {
   @Input() config!: CourseArticleConfig | null;
 
   constructor(private hostElement: ElementRef) { }
-  
-
-
 
   ngAfterViewInit(): void {
     this.setStyles(this.config);
@@ -27,6 +24,7 @@ export class CustomStylesDirective implements OnChanges {
     setTimeout(() => {
       this.setStyles(config);
     }, 300); // ? Added Timeout to fix the issue (Not the best solution)
+    console.log(this.config)
   }
 
   setStyles(config: CourseArticleConfig | null) {
@@ -37,9 +35,15 @@ export class CustomStylesDirective implements OnChanges {
           Object.entries(styles).forEach(([prop, value]) => {
             if (prop === 'border') {
               elements.forEach((el: any) => {
-                el.style.borderStyle = styles.border?.style;
-                el.style.borderWidth = styles.border?.width;
-                el.style.borderColor = styles.border?.color;
+                const borderStyles = styles.border;
+                if (borderStyles) {
+                  el.style.borderStyle = borderStyles.style;
+                  el.style.borderColor = borderStyles.color;
+                  el.style.borderTopWidth = borderStyles.top;
+                  el.style.borderRightWidth = borderStyles.right;
+                  el.style.borderBottomWidth = borderStyles.bottom;
+                  el.style.borderLeftWidth = borderStyles.left;
+                }
               });
             } else {
               elements.forEach((el: any) => {
@@ -48,12 +52,9 @@ export class CustomStylesDirective implements OnChanges {
             }
           });
         } else {
-          console.warn(
-            'Could not select the element: ' + tag,
-            this.hostElement
-          );
+          console.warn('Could not select the element: ' + tag, this.hostElement);
         }
       });
     }
   }
-}
+}  
