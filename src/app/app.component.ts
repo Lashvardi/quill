@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   quillContent = '';
   quillStyle: object = {};
   viewMode: 'css' | 'json' = 'css';
+  @ViewChild(QuillEditorComponent) editor: QuillEditorComponent | undefined;
 
   // ? Limitation Of Mark Color
   customBackgroundColorPalette: string[] = ['#cfcf'];
@@ -30,37 +31,9 @@ export class AppComponent implements OnInit {
   selectedColor: string = 'yellow'; // Default color
 
   // Todo: Update This Everytem Custom Style Is Updated
-  quillModules: QuillModules = {
-    // ? Commented Parts Which I Thought Are Not Needed
-    toolbar: [
-      [
-        //'bold',
-        //'italic',
-        //'underline',
-        //'strike',
-        'blockquote',
-        'code-block',
-        { header: 1 },
-        { header: 2 },
-        //{ list: 'ordered' },
-        //{ list: 'bullet' },
-        //{ script: 'sub' },
-        //{ script: 'super' },
-        //{ indent: '-1' },
-        //{ indent: '+1' },
-        //{ direction: 'rtl' },
-        //{ size: ['small', false, 'large', 'huge'] },
-        { header: [1, 2, 3, 4, 5, 6, false] },
-        //{ font: [] },
-        //{ align: [] },
-        'link',
-        'image',
-        'video',
-        'clean',
-      ],
-      [{ background: this.customBackgroundColorPalette }],
-    ],
-  };
+  quillModules = {
+
+  }
 
   someConfig: CourseArticleConfig = {
     fontFamilies: ['Helvetica', 'Arial', 'Roboto'],
@@ -225,6 +198,20 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
+    this.quillModules = {
+      toolbar: {
+        container: [
+          ['blockquote', 'code-block'],
+          [{ 'header': 1 }, { 'header': 2 }],
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'color': [] }, { 'background': this.customBackgroundColorPalette }],
+          ['link', 'image']
+        ],
+        handlers: {
+          'image': this.imageHandler.bind(this)
+        }
+      }
+    };
     this.quillContent$ = of(localStorage.getItem('editor_content'));
 
     this.customStyles.valueChanges.subscribe((value) => {
@@ -232,6 +219,43 @@ export class AppComponent implements OnInit {
 
       this.quillStyle = this.customStyles.getRawValue();
     });
+  }
+
+  @ViewChild(QuillEditorComponent) quillEditorComponent!: QuillEditorComponent;
+
+
+
+  ngAfterViewInit() {
+    const toolbar = this.quillEditorComponent.quillEditor.getModule('toolbar');
+    toolbar.addHandler('image', this.imageHandler.bind(this));
+  }
+
+  //! This is Custom FileHandler
+  imageHandler() {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files![0];
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        console.log(e.target.result);
+        const range = this.quillEditorComponent.quillEditor.getSelection(true);
+
+        // create img tag manually with 'Hello World' as src
+        const img = document.createElement('img');
+        img.src = 'Hello World';
+        const Delta = Quill.import('delta');
+        const delta = new Delta().retain(range.index).delete(range.length).insert({ image: img.outerHTML });
+
+        this.quillEditorComponent.quillEditor.updateContents(delta);
+      };
+
+      reader.readAsDataURL(file);
+    };
   }
 
   onSubmit() {
