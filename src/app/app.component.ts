@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
         'video',
         'clean',
       ],
-      //[{ background: this.customBackgroundColorPalette }],
+      [{ background: this.customBackgroundColorPalette }],
     ],
   };
 
@@ -175,6 +175,7 @@ export class AppComponent implements OnInit {
         color: 'gray',
         fontFamily: 'serif',
         fontSize: '1.2rem',
+        fontStyle: 'normal',
         maxWidth: '100%',
         padding: '10px',
         margin: '0px',
