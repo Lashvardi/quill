@@ -351,27 +351,29 @@
                   </nz-select>
                 </div>
 
-                  <div nz-row nzGutter="16">
-                    <div  nz-col nzSpan="16">
-                      <div class="config-item">
-                        <label for="bq-max-width">Max Width</label>
-                        <input id="bq-max-width" type="text" formControlName="maxWidth"/>
-                      </div>
-                      <div class="config-item">
-                        <label for="bq-padding">Padding</label>
-                        <input id="bq-padding" type="text" formControlName="padding"/>
-                      </div>
-                      <div class="config-item">
-                        <label for="bq-margin">Margin</label>
-                        <input id="bq-margin" type="text" formControlName="margin"/>
-                      </div>
+                <div  nz-row nzGutter="16">
+                  <div  nz-col nzSpan="16">
+                    <div class="config-item">
+                      <label for="bq-max-width">Max Width</label>
+                      <input id="bq-max-width" type="text" formControlName="maxWidth"/>
+                    </div>
+                    <div class="config-item">
+                      <label for="bq-padding">Padding</label>
+                      <input id="bq-padding" type="text" formControlName="padding"/>
+                    </div>
+                    <div class="config-item">
+                      <label for="bq-margin">Margin</label>
+                      <input id="bq-margin" type="text" formControlName="margin"/>
                     </div>
                   </div>
+                </div>
+
+
                   <div nz-row nzGutter="16">
                     <div nz-col nzSpan="16">
                       <div class="config-item">
                         <h4>Border Width</h4>
-                        <div nz-row nzGutter="16">
+                        <div formGroupName="border"  nz-row nzGutter="16">
                           <div nz-col nzSpan="12" class="border-config">
                             <label for="border-top">Top</label>
                             <input id="border-top" type="text" formControlName="top" />
@@ -381,12 +383,12 @@
                             <input id="border-left" type="text" formControlName="left" />
                           </div>
                         </div>
-                        <div nz-row nzGutter="16">
+                        <div formGroupName="border" nz-row nzGutter="16">
                           <div nz-col nzSpan="12" class="border-config">
                             <label for="border-right">Right</label>
                             <input id="border-right" type="text" formControlName="right" />
                           </div>
-                          <div nz-col nzSpan="12" class="border-config">
+                          <div v nz-col nzSpan="12" class="border-config">
                             <label for="border-bottom">Bottom</label>
                             <input id="border-bottom" type="text" formControlName="bottom" />
                           </div>
@@ -394,10 +396,7 @@
                       </div>
                     </div>
                   </div>
-                
-                
-
-              
+                   
                 <!-- ? Border Form Group -->
                 <div formGroupName="border" class="config-box">
                   <div class="color-picker-box">
