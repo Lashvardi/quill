@@ -25,6 +25,7 @@ export interface ElementStyles {
   fontStyle: string;
   // Changed For String
   textAlign: string;
+  maxWidth: string;
   textDecoration: string;
   lineLeight: string;
   letterSpacing: string;
@@ -38,12 +39,18 @@ export interface ElementStyles {
 export interface BorderStyles {
   width: string;
   color: string;
-  style: 'none' | 'dotted' | 'inset' | 'solid' | 'dashed';
+  //? Changed For String (Had A Problem With Border Style)
+  style: string;
   radius: string;
   radiusTopLeft: string;
   radiusTopRight: string;
   radiusBottomLeft: string;
   radiusBottomRight: string;
+  top: string;
+  right: string;
+  bottom: string;
+  left: string;
+  
 }
 
 export type ElementName =
