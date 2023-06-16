@@ -5,6 +5,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
+
 import { FormArray, NonNullableFormBuilder } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
@@ -17,12 +18,16 @@ import { QuillEditorComponent, QuillModules } from 'ngx-quill';
 })
 export class AppComponent implements OnInit {
   quillContent$: Observable<string | null> = of(null);
+  quillContent = '';
   quillStyle: object = {};
   viewMode: 'css' | 'json' = 'css';
 
   // ? Limitation Of Mark Color
   customBackgroundColorPalette: string[] = ['#cfcf'];
+  quillInstance: any;
+  selectedColor: string = 'yellow'; // Default color
 
+  // Todo: Update This Everytem Custom Style Is Updated
   quillModules: QuillModules = {
     // ? Commented Parts Which I Thought Are Not Needed
     toolbar: [
@@ -51,7 +56,7 @@ export class AppComponent implements OnInit {
         'video',
         'clean',
       ],
-      [{ background: this.customBackgroundColorPalette }],
+      //[{ background: this.customBackgroundColorPalette }],
     ],
   };
 
@@ -181,7 +186,7 @@ export class AppComponent implements OnInit {
         backgroundColor: 'black',
       }),
       markColor: this.fb.group({
-        backgroundColor: 'yellow',
+        backgroundColor: ['yellow'],
       }),
     }),
   });
@@ -197,11 +202,22 @@ export class AppComponent implements OnInit {
 
     this.customStyles.valueChanges.subscribe((value) => {
       this.customStyles$.next(this.customStyles.getRawValue());
+
+      this.quillStyle = this.customStyles.getRawValue();
     });
   }
 
   onSubmit() {
     console.log(this.quillContent$);
+  }
+
+  onEditorCreated(editorInstance: any) {
+    this.quillInstance = editorInstance;
+  }
+
+  onContentUpdated(newContent: string) {
+    this.quillContent = newContent;
+    localStorage.setItem('editor_content', this.quillContent);
   }
 
   // Modal Code

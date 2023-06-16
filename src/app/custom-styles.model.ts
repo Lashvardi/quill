@@ -23,7 +23,7 @@ export interface ElementStyles {
   fontFamily: string;
   fontSize: string;
   fontStyle: string;
-  // Changed For String 
+  // Changed For String
   textAlign: string;
   textDecoration: string;
   lineLeight: string;
@@ -34,7 +34,6 @@ export interface ElementStyles {
   margin: string;
   padding: string;
 }
-
 
 export interface BorderStyles {
   width: string;

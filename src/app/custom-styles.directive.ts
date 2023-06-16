@@ -4,19 +4,21 @@ import {
   OnChanges,
   SimpleChanges,
   ElementRef,
+  ViewEncapsulation,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CourseArticleConfig } from './custom-styles.model';
-
+ViewEncapsulation.None;
 @Directive({
   selector: '[appCustomStyles]',
 })
 export class CustomStylesDirective implements OnChanges {
   @Input() config!: CourseArticleConfig | null;
 
-  constructor(private hostElement: ElementRef) { }
-  
-
-
+  constructor(
+    private hostElement: ElementRef,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit(): void {
     this.setStyles(this.config);
@@ -24,9 +26,10 @@ export class CustomStylesDirective implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const config = changes['config'].currentValue as CourseArticleConfig | null;
-    setTimeout(() => {
-      this.setStyles(config);
-    }, 300); // ? Added Timeout to fix the issue (Not the best solution)
+
+    this.cdr.detectChanges(); // Force view update
+
+    this.setStyles(config);
   }
 
   setStyles(config: CourseArticleConfig | null) {
