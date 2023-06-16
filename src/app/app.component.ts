@@ -181,9 +181,12 @@ export class AppComponent implements OnInit {
         margin: '0px',
         backgroundColor: 'white',
         textAlign: 'left',
+        // ? Added here
+        borderRadius: '0px',
         border: this.fb.group({
           color: 'orange',
           style: 'solid',
+          // ! As I Know There is No Border Radius For Blockquote
           radius: '0px',
           top: '0px',
           right: '0px',

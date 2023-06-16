@@ -394,31 +394,34 @@
                   <label for="border-color">Border Color</label>
                   <input id="border-color" type="color" formControlName="color" />
                 </div>
-
-                <div nz-row nzGutter="16">
-                  <div nz-col nzSpan="16">
-                    <div class="config-item">
-                      <h4>Border Width</h4>
-                      <div formGroupName="border" nz-row nzGutter="16">
-                        <div nz-col nzSpan="12" class="border-config">
-                          <label for="border-top">Top</label>
-                          <input id="border-top" type="text" formControlName="top" />
-                        </div>
-                        <div nz-col nzSpan="12" class="border-config">
-                          <label for="border-left">Left</label>
-                          <input id="border-left" type="text" formControlName="left" />
-                        </div>
+              </div>
+              <div nz-row nzGutter="16">
+                <div nz-col nzSpan="16">
+                  <div class="config-item">
+                    <h4>Border Width</h4>
+                    <div formGroupName="border" nz-row nzGutter="16">
+                      <div nz-col nzSpan="12" class="border-config">
+                        <label for="border-top">Top</label>
+                        <input id="border-top" type="text" formControlName="top" />
                       </div>
-                      <div formGroupName="border" nz-row nzGutter="16">
-                        <div nz-col nzSpan="12" class="border-config">
-                          <label for="border-right">Right</label>
-                          <input id="border-right" type="text" formControlName="right" />
-                        </div>
-                        <div v nz-col nzSpan="12" class="border-config">
-                          <label for="border-bottom">Bottom</label>
-                          <input id="border-bottom" type="text" formControlName="bottom" />
-                        </div>
+                      <div nz-col nzSpan="12" class="border-config">
+                        <label for="border-left">Left</label>
+                        <input id="border-left" type="text" formControlName="left" />
                       </div>
+                    </div>
+                    <div formGroupName="border" nz-row nzGutter="16">
+                      <div nz-col nzSpan="12" class="border-config">
+                        <label for="border-right">Right</label>
+                        <input id="border-right" type="text" formControlName="right" />
+                      </div>
+                      <div v nz-col nzSpan="12" class="border-config">
+                        <label for="border-bottom">Bottom</label>
+                        <input id="border-bottom" type="text" formControlName="bottom" />
+                      </div>
+                    </div>
+                    <div v nz-col nz-span="12" class="config-item">
+                      <label for="bq-margin">Border Radius</label>
+                      <input id="bq-margin" type="text" formControlName="borderRadius" />
                     </div>
                   </div>
                 </div>
