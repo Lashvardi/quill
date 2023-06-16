@@ -317,6 +317,18 @@
                   <label for="bq-color">Color</label>
                   <input id="bq-color" type="color" formControlName="color" />
                 </div>
+
+                <div class="color-picker-box">
+                  <label for="bq-bg-color">BG Color</label>
+                  <input id="bq-bg-color" type="color" formControlName="backgroundColor"/>
+                </div>
+
+                 <!-- ? Border Form Group -->
+                 <div formGroupName="border" class="config-box">
+                  <div class="color-picker-box">
+                    <label for="border-color">Border Color</label>
+                    <input class="" id="border-color" type="color" formControlName="color" />
+                  </div>
         
                 <!-- Font Family -->
                 <div class="config-item">
@@ -397,12 +409,7 @@
                     </div>
                   </div>
                    
-                <!-- ? Border Form Group -->
-                <div formGroupName="border" class="config-box">
-                  <div class="color-picker-box">
-                    <label for="border-color">Border Color</label>
-                    <input class="" id="border-color" type="color" formControlName="color" />
-                  </div>
+               
               </div>
             </div>
               

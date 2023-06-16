@@ -178,6 +178,7 @@ export class AppComponent implements OnInit {
         maxWidth: '100%',
         padding: '10px',
         margin: '0px',
+        backgroundColor: 'white',
         border: this.fb.group({
           color: 'orange',
           style: 'solid',
