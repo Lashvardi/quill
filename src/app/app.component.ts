@@ -180,6 +180,7 @@ export class AppComponent implements OnInit {
         padding: '10px',
         margin: '0px',
         backgroundColor: 'white',
+        textAlign: 'left',
         border: this.fb.group({
           color: 'orange',
           style: 'solid',

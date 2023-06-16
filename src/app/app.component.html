@@ -1,7 +1,8 @@
 <!-- Todo: Should Be Styled, And Moved To SCSS Project -->
 
 <div class="container-fluid">
-  <quill-editor  [ngModel]="quillContent$ | async" [modules]="quillModules" appCustomStyles [config]="customStyles$ | async"></quill-editor>
+  <quill-editor class="fixed-editor" [ngModel]="quillContent$ | async" [modules]="quillModules" appCustomStyles
+    [config]="customStyles$ | async"></quill-editor>
   <div class="style-editor">
     <h2>Style Editor</h2>
     <button nz-button nzType="primary" (click)="showModal()">
@@ -28,7 +29,7 @@
                 </nz-col>
               </nz-row>
             </div>
-            
+
 
           </div>
         </nz-collapse-panel>
@@ -38,7 +39,7 @@
       <div formGroupName="elements">
         <!-- ? ----  Divider ---- -->
         <nz-collapse>
-          <nz-collapse-panel nzHeader="H1" >
+          <nz-collapse-panel nzHeader="H1">
             <div formGroupName="h1" class="config-box">
               <h3>H1</h3>
 
@@ -226,7 +227,8 @@
               <div class="config-item">
                 <label for="p-lineHeight">Line Height</label>
                 <nz-select id="p-lineHeight" formControlName="lineHeight" nzAllowClear nzPlaceHolder="Line Height">
-                  <nz-option *ngFor="let height of lineHeightOptions" [nzValue]="height + 'px'" [nzLabel]="height + 'px'">
+                  <nz-option *ngFor="let height of lineHeightOptions" [nzValue]="height + 'px'"
+                    [nzLabel]="height + 'px'">
                   </nz-option>
                 </nz-select>
               </div>
@@ -234,8 +236,10 @@
 
               <div class="config-item">
                 <label for="p-letterSpacing">Letter Spacing</label>
-                <nz-select id="p-letterSpacing" formControlName="letterSpacing" nzAllowClear nzPlaceHolder="Letter Spacing">
-                  <nz-option *ngFor="let spacing of letterSpacingOptions" [nzValue]="spacing + 'px'" [nzLabel]="spacing + 'px'" >
+                <nz-select id="p-letterSpacing" formControlName="letterSpacing" nzAllowClear
+                  nzPlaceHolder="Letter Spacing">
+                  <nz-option *ngFor="let spacing of letterSpacingOptions" [nzValue]="spacing + 'px'"
+                    [nzLabel]="spacing + 'px'">
 
                   </nz-option>
                 </nz-select>
@@ -310,25 +314,25 @@
           <nz-collapse-panel nzHeader="blockquote">
             <div formGroupName="blockquote" class="config-box">
               <h3>Blockquote</h3>
-        
+
               <!-- Max Width, Padding, and Margin -->
               <div nz-row nzGutter="16">
                 <div nz-col nzSpan="8">
                   <div class="config-item">
                     <label for="bq-max-width">Max Width</label>
-                    <input id="bq-max-width" type="text" formControlName="maxWidth"/>
+                    <input id="bq-max-width" type="text" formControlName="maxWidth" />
                   </div>
                 </div>
                 <div nz-col nzSpan="8">
                   <div class="config-item">
                     <label for="bq-padding">Padding</label>
-                    <input id="bq-padding" type="text" formControlName="padding"/>
+                    <input id="bq-padding" type="text" formControlName="padding" />
                   </div>
                 </div>
                 <div nz-col nzSpan="8">
                   <div class="config-item">
                     <label for="bq-margin">Margin</label>
-                    <input id="bq-margin" type="text" formControlName="margin"/>
+                    <input id="bq-margin" type="text" formControlName="margin" />
                   </div>
                 </div>
               </div>
@@ -336,7 +340,8 @@
 
               <div class="config-item">
                 <label for="bq-font-family">Font Family</label>
-                <nz-select id="bq-font-family" formControlName="fontFamily" nzAllowClear nzPlaceHolder="Choose font family">
+                <nz-select id="bq-font-family" formControlName="fontFamily" nzAllowClear
+                  nzPlaceHolder="Choose font family">
                   <nz-option *ngFor="let font of defaultFontFamilies" [nzValue]="font" [nzLabel]="font"></nz-option>
                 </nz-select>
               </div>
@@ -353,64 +358,76 @@
                   <div class="config-item">
                     <label for="bq-font-style">Font Style</label>
                     <nz-select formControlName="fontStyle" nzPlaceHolder="Select Font Style">
-                      <nz-option  *ngFor="let style of fontStyleOptions" [nzValue]="style.value" [nzLabel]="style.label"></nz-option>
-                    </nz-select>  
+                      <nz-option *ngFor="let style of fontStyleOptions" [nzValue]="style.value" [nzLabel]="style.label">
+                      </nz-option>
+                    </nz-select>
                   </div>
                 </div>
               </div>
-              
+
+              <!-- Text Align -->
+              <div class="config-item">
+                <label for="p-textAlign">Text Align </label>
+                <div id="p-textAlign" formControlName="textAlign">
+                  <button *ngFor="let option of textAlignOptions" class="textAlignButton"
+                    (click)="customStyles.get('elements.blockquote.textAlign')?.setValue(option.value)">
+                    <i [class]="getIconClass(option.value)" aria-hidden="true"></i> {{ option.label }}
+                  </button>
+                </div>
+              </div>
+
 
               <!-- Color Picker -->
               <div class="color-picker-box">
                 <label for="bq-color">Color</label>
                 <input id="bq-color" type="color" formControlName="color" />
               </div>
-              
+
               <div class="color-picker-box">
                 <label for="bq-bg-color">BG Color</label>
-                <input id="bq-bg-color" type="color" formControlName="backgroundColor"/>
+                <input id="bq-bg-color" type="color" formControlName="backgroundColor" />
               </div>
-        
+
               <!-- Border Form Group -->
               <div formGroupName="border" class="config-box">
                 <div class="color-picker-box">
                   <label for="border-color">Border Color</label>
                   <input id="border-color" type="color" formControlName="color" />
                 </div>
-                
-                 <div nz-row nzGutter="16">
-                    <div nz-col nzSpan="16">
-                      <div class="config-item">
-                        <h4>Border Width</h4>
-                        <div formGroupName="border"  nz-row nzGutter="16">
-                          <div nz-col nzSpan="12" class="border-config">
-                            <label for="border-top">Top</label>
-                            <input id="border-top" type="text" formControlName="top" />
-                          </div>
-                          <div nz-col nzSpan="12" class="border-config">
-                            <label for="border-left">Left</label>
-                            <input id="border-left" type="text" formControlName="left" />
-                          </div>
+
+                <div nz-row nzGutter="16">
+                  <div nz-col nzSpan="16">
+                    <div class="config-item">
+                      <h4>Border Width</h4>
+                      <div formGroupName="border" nz-row nzGutter="16">
+                        <div nz-col nzSpan="12" class="border-config">
+                          <label for="border-top">Top</label>
+                          <input id="border-top" type="text" formControlName="top" />
                         </div>
-                        <div formGroupName="border" nz-row nzGutter="16">
-                          <div nz-col nzSpan="12" class="border-config">
-                            <label for="border-right">Right</label>
-                            <input id="border-right" type="text" formControlName="right" />
-                          </div>
-                          <div v nz-col nzSpan="12" class="border-config">
-                            <label for="border-bottom">Bottom</label>
-                            <input id="border-bottom" type="text" formControlName="bottom" />
-                          </div>
+                        <div nz-col nzSpan="12" class="border-config">
+                          <label for="border-left">Left</label>
+                          <input id="border-left" type="text" formControlName="left" />
+                        </div>
+                      </div>
+                      <div formGroupName="border" nz-row nzGutter="16">
+                        <div nz-col nzSpan="12" class="border-config">
+                          <label for="border-right">Right</label>
+                          <input id="border-right" type="text" formControlName="right" />
+                        </div>
+                        <div v nz-col nzSpan="12" class="border-config">
+                          <label for="border-bottom">Bottom</label>
+                          <input id="border-bottom" type="text" formControlName="bottom" />
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
               </div>
             </div>
           </nz-collapse-panel>
         </nz-collapse>
-        
-        
+
+
 
         <nz-collapse>
           <nz-collapse-panel nzHeader="Background-Color">
@@ -439,8 +456,8 @@
             </div>
           </nz-collapse-panel>
         </nz-collapse>
-        
-        
+
+
       </div>
     </form>
   </div>
