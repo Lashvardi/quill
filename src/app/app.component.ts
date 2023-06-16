@@ -10,6 +10,8 @@ import { FormArray, NonNullableFormBuilder } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 import { QuillEditorComponent, QuillModules } from 'ngx-quill';
+import { base64HandlerService } from './services/base64handler.service';
+import Quill from 'quill';
 
 @Component({
   selector: 'app-root',
@@ -214,7 +216,13 @@ export class AppComponent implements OnInit {
     (this.quillStyle = this.customStyles.getRawValue())
   );
 
-  constructor(private fb: NonNullableFormBuilder) {}
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private imageUploadService: base64HandlerService
+  ) {}
+
+
+
 
   ngOnInit() {
     this.quillContent$ = of(localStorage.getItem('editor_content'));
