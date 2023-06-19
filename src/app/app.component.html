@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
   <quill-editor class="fixed-editor" [ngModel]="quillContent$ | async" [modules]="quillModules" appCustomStyles
-    [config]="customStyles$ | async"></quill-editor>
+    [config]="customStyles$ | async" (ngModelChange)="onContentUpdated($event)"></quill-editor>
   <div class="style-editor">
     <h2>Style Editor</h2>
     <button nz-button nzType="primary" (click)="showModal()">

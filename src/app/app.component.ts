@@ -85,6 +85,8 @@ export class AppComponent implements OnInit {
     { label: 'Normal', value: 'normal' },
     { label: 'Italic', value: 'italic' },
     { label: 'Oblique', value: 'oblique' },
+    // ? Add Bold
+    { label: 'Bold', value: 'bold' },
   ];
 
   //? Fonf Family Options
@@ -201,6 +203,7 @@ export class AppComponent implements OnInit {
     this.quillModules = {
       toolbar: {
         container: [
+          ['bold', 'italic', 'underline', 'strike'],
           ['blockquote', 'code-block'],
           [{ 'header': 1 }, { 'header': 2 }],
           [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -258,8 +261,7 @@ export class AppComponent implements OnInit {
     };
   }
 
-  onSubmit() {
-    console.log(this.quillContent$);
+  onSubmit() {    console.log(this.quillContent$);
   }
 
   onEditorCreated(editorInstance: any) {
