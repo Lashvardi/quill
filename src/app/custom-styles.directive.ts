@@ -28,7 +28,6 @@ export class CustomStylesDirective implements OnChanges {
     setTimeout(() => {
       this.setStyles(config);
     }, 300); // ? Added Timeout to fix the issue (Not the best solution)
-    console.log(this.config)
   }
 
   setStyles(config: CourseArticleConfig | null) {

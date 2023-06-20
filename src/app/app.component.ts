@@ -1,20 +1,7 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  Input,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { FormArray, NonNullableFormBuilder } from '@angular/forms';
-import {
-  BehaviorSubject,
-  Observable,
-  map,
-  of,
-  pairwise,
-  startWith,
-} from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 import { QuillEditorComponent, QuillModules } from 'ngx-quill';
 import { base64HandlerService } from './services/base64handler.service';
@@ -30,7 +17,7 @@ export class AppComponent implements OnInit {
   quillContent = '';
   quillStyle: object = {};
   viewMode: 'css' | 'json' = 'css';
-  @ViewChild(QuillEditorComponent) quillEditorComponent!: QuillEditorComponent; 
+  @ViewChild(QuillEditorComponent) quillEditorComponent!: QuillEditorComponent;
 
   // ? Limitation Of Mark Color
   customBackgroundColorPalette: string[] = ['#cfcf'];
@@ -221,6 +208,24 @@ export class AppComponent implements OnInit {
 
     this.customStyles.valueChanges.subscribe((value) => {
       this.customStyles$.next(this.customStyles.getRawValue());
+
+      this.quillStyle = this.customStyles.getRawValue();
+    });
+
+    // load saved custom styles from local storage if it exists, or use initial value otherwise
+    const savedCustomStyles = localStorage.getItem('custom_styles');
+    if (savedCustomStyles) {
+      this.customStyles.setValue(JSON.parse(savedCustomStyles));
+    }
+
+    this.customStyles.valueChanges.subscribe((value) => {
+      this.customStyles$.next(this.customStyles.getRawValue());
+
+      // save custom styles to local storage when it changes
+      localStorage.setItem(
+        'custom_styles',
+        JSON.stringify(this.customStyles.getRawValue())
+      );
 
       this.quillStyle = this.customStyles.getRawValue();
     });
