@@ -17,7 +17,6 @@ export class CustomStylesDirective implements OnChanges {
 
   constructor(
     private hostElement: ElementRef,
-    private cdr: ChangeDetectorRef
   ) {}
 
   ngAfterViewInit(): void {

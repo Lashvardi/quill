@@ -7,7 +7,14 @@ import {
 } from '@angular/core';
 
 import { FormArray, NonNullableFormBuilder } from '@angular/forms';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  map,
+  of,
+  pairwise,
+  startWith,
+} from 'rxjs';
 import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 import { QuillEditorComponent, QuillModules } from 'ngx-quill';
 import { base64HandlerService } from './services/base64handler.service';
@@ -23,7 +30,7 @@ export class AppComponent implements OnInit {
   quillContent = '';
   quillStyle: object = {};
   viewMode: 'css' | 'json' = 'css';
-  @ViewChild(QuillEditorComponent) editor: QuillEditorComponent | undefined;
+  @ViewChild(QuillEditorComponent) quillEditorComponent!: QuillEditorComponent; 
 
   // ? Limitation Of Mark Color
   customBackgroundColorPalette: string[] = ['#cfcf'];
@@ -31,9 +38,8 @@ export class AppComponent implements OnInit {
   selectedColor: string = 'yellow'; // Default color
 
   // Todo: Update This Everytem Custom Style Is Updated
-  quillModules = {
 
-  }
+  quillModules = {};
 
   someConfig: CourseArticleConfig = {
     fontFamilies: ['Helvetica', 'Arial', 'Roboto'],
@@ -86,7 +92,6 @@ export class AppComponent implements OnInit {
     { label: 'Italic', value: 'italic' },
     { label: 'Oblique', value: 'oblique' },
     // ? Add Bold
-    { label: 'Bold', value: 'bold' },
   ];
 
   //? Fonf Family Options
@@ -140,9 +145,9 @@ export class AppComponent implements OnInit {
       }),
 
       p: this.fb.group({
-        color: 'black',
+        color: 'red',
         fontFamily: 'Helvetica',
-        fontSize: '1.2rem',
+        fontSize: '4rem',
         textAlign: 'left',
         fontStyle: 'normal',
         lineHeight: '1.5',
@@ -196,24 +201,21 @@ export class AppComponent implements OnInit {
     private imageUploadService: base64HandlerService
   ) {}
 
-
-
-
   ngOnInit() {
     this.quillModules = {
       toolbar: {
         container: [
           ['bold', 'italic', 'underline', 'strike'],
           ['blockquote', 'code-block'],
-          [{ 'header': 1 }, { 'header': 2 }],
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          [{ 'color': [] }, { 'background': this.customBackgroundColorPalette }],
-          ['link', 'image']
+          [{ header: 1 }, { header: 2 }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ color: [] }, { background: this.customBackgroundColorPalette }],
+          ['link', 'image'],
         ],
         handlers: {
-          'image': this.imageHandler.bind(this)
-        }
-      }
+          image: this.imageHandler.bind(this),
+        },
+      },
     };
     this.quillContent$ = of(localStorage.getItem('editor_content'));
 
@@ -223,10 +225,6 @@ export class AppComponent implements OnInit {
       this.quillStyle = this.customStyles.getRawValue();
     });
   }
-
-  @ViewChild(QuillEditorComponent) quillEditorComponent!: QuillEditorComponent;
-
-
 
   ngAfterViewInit() {
     const toolbar = this.quillEditorComponent.quillEditor.getModule('toolbar');
@@ -252,7 +250,10 @@ export class AppComponent implements OnInit {
         const img = document.createElement('img');
         img.src = 'Hello World';
         const Delta = Quill.import('delta');
-        const delta = new Delta().retain(range.index).delete(range.length).insert({ image: img.outerHTML });
+        const delta = new Delta()
+          .retain(range.index)
+          .delete(range.length)
+          .insert({ image: img.outerHTML });
 
         this.quillEditorComponent.quillEditor.updateContents(delta);
       };
@@ -261,7 +262,8 @@ export class AppComponent implements OnInit {
     };
   }
 
-  onSubmit() {    console.log(this.quillContent$);
+  onSubmit() {
+    console.log(this.quillContent$);
   }
 
   onEditorCreated(editorInstance: any) {
@@ -269,8 +271,15 @@ export class AppComponent implements OnInit {
   }
 
   onContentUpdated(newContent: string) {
+    // Todo: Handle Applying Custom Styles on Typing (Any Action) In Quill Editor
+    // ?  Updating Values of the QuillStyle When Content is Updated (FIXED)
+    this.customStyles$ = new BehaviorSubject<CourseArticleConfig>(
+      (this.quillStyle = this.customStyles.getRawValue())
+    );
     this.quillContent = newContent;
+    // ? Setting And Getting At tHe Same Time
     localStorage.setItem('editor_content', this.quillContent);
+    this.quillContent$ = of(localStorage.getItem('editor_content'));
   }
 
   // Modal Code
