@@ -19,7 +19,15 @@ export class HighlightCssPipe implements PipeTransform {
       'backgroundColor',
       'border',
       'margin',
-      'padding'
+      'padding',
+      'borderRadius',
+      'maxWidth',
+      'style',
+      'radius',
+      'top',
+      'right',
+      'bottom',
+      'left',
     ];
 
     const values = css.match(/:.*?;/g)?.map(s => s.slice(1, -1).trim()) || [];

@@ -1,7 +1,11 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { FormArray, NonNullableFormBuilder } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
+import { QuillEditorComponent, QuillModules } from 'ngx-quill';
+import { base64HandlerService } from './services/base64handler.service';
+import Quill from 'quill';
 
 @Component({
   selector: 'app-root',
@@ -9,17 +13,20 @@ import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
   styleUrls: ['./app.component.less'],
 })
 export class AppComponent implements OnInit {
+  quillContent$: Observable<string | null> = of(null);
   quillContent = '';
   quillStyle: object = {};
-  viewMode: 'css' | 'json' = 'css'; // default to CSS view
+  viewMode: 'css' | 'json' = 'css';
+  @ViewChild(QuillEditorComponent) quillEditorComponent!: QuillEditorComponent;
 
-  quillModules = {
-    toolbar: [
-      // your toolbar options
-    ],
-    imageResize: true,  // add this line
-  };
+  // ? Limitation Of Mark Color
+  customBackgroundColorPalette: string[] = ['#cfcf'];
+  quillInstance: any;
+  selectedColor: string = 'yellow'; // Default color
 
+  // Todo: Update This Everytem Custom Style Is Updated
+
+  quillModules = {};
 
   someConfig: CourseArticleConfig = {
     fontFamilies: ['Helvetica', 'Arial', 'Roboto'],
@@ -53,11 +60,16 @@ export class AppComponent implements OnInit {
   // ? Return Icon Class
   getIconClass(value: string) {
     switch (value) {
-      case 'left': return 'bi bi-text-left';
-      case 'center': return 'bi bi-text-center';
-      case 'right': return 'bi bi-text-right';
-      case 'justify': return 'bi bi-justify';
-      default: return '';
+      case 'left':
+        return 'bi bi-text-left';
+      case 'center':
+        return 'bi bi-text-center';
+      case 'right':
+        return 'bi bi-text-right';
+      case 'justify':
+        return 'bi bi-justify';
+      default:
+        return '';
     }
   }
 
@@ -66,24 +78,37 @@ export class AppComponent implements OnInit {
     { label: 'Normal', value: 'normal' },
     { label: 'Italic', value: 'italic' },
     { label: 'Oblique', value: 'oblique' },
-  ]
-
+    // ? Add Bold
+  ];
 
   //? Fonf Family Options
-  defaultFontFamilies: string[] = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Lucida Console'];
+  defaultFontFamilies: string[] = [
+    'Arial',
+    'Helvetica',
+    'Times New Roman',
+    'Courier New',
+    'Lucida Console',
+  ];
   addedFontFamilies: string[] = [];
 
-
   // ? FontSize Options
-  sizes: number[] = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 48, 60, 72];
-  color: string = '#000000';
+  sizes: number[] = [
+    8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 48, 60,
+    72,
+  ];
 
+  //? Spacing && Line Height Options
+  lineHeightOptions: number[] = [1, 1.15, 1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 9];
+  letterSpacingOptions: number[] = [0, 0.5, 1, 1.5, 2, 2.5, 3];
+
+  // * Form Group
   customStyles = this.fb.group({
     fontFamilies: this.fb.array(['Helvetica', 'Serif']),
     globalFontFamily: 'Helvetica',
     elements: this.fb.group({
       h1: this.fb.group({
-        color: 'black',
+        // ! Appp APP
+        color: 'red',
         fontFamily: 'Helvetica',
         fontSize: '2rem',
         textAlign: 'left',
@@ -107,17 +132,38 @@ export class AppComponent implements OnInit {
       }),
 
       p: this.fb.group({
-        color: 'black',
+        color: 'red',
         fontFamily: 'Helvetica',
-        fontSize: '1.2rem',
+        fontSize: '4rem',
         textAlign: 'left',
         fontStyle: 'normal',
+        lineHeight: '1.5',
+        letterSpacing: '0',
       }),
       blockquote: this.fb.group({
         color: 'gray',
         fontFamily: 'serif',
         fontSize: '1.2rem',
+        fontStyle: 'normal',
+        maxWidth: '100%',
+        padding: '10px',
+        margin: '0px',
+        backgroundColor: 'white',
+        textAlign: 'left',
+        // ? Added here
+        borderRadius: '0px',
+        border: this.fb.group({
+          color: 'orange',
+          style: 'solid',
+          // ! As I Know There is No Border Support Here
+          radius: '0px',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          left: '10px',
+        }),
       }),
+
       a: this.fb.group({
         color: 'blue',
         fontFamily: 'serif',
@@ -127,41 +173,119 @@ export class AppComponent implements OnInit {
       '.test_box': this.fb.group({
         backgroundColor: 'black',
       }),
+      markColor: this.fb.group({
+        backgroundColor: ['yellow'],
+      }),
     }),
   });
 
   customStyles$ = new BehaviorSubject<CourseArticleConfig>(
-    this.quillStyle  = this.customStyles.getRawValue()
-
+    (this.quillStyle = this.customStyles.getRawValue())
   );
 
-  constructor(private fb: NonNullableFormBuilder) {}
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private imageUploadService: base64HandlerService
+  ) {}
 
   ngOnInit() {
-    const savedContent = localStorage.getItem('editor_content');
-    if (savedContent) {
-      this.quillContent = savedContent;
-    }
+    this.quillModules = {
+      toolbar: {
+        container: [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [{ header: 1 }, { header: 2 }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ color: [] }, { background: this.customBackgroundColorPalette }],
+          ['link', 'image'],
+        ],
+        handlers: {
+          image: this.imageHandler.bind(this),
+        },
+      },
+    };
+    this.quillContent$ = of(localStorage.getItem('editor_content'));
 
-    // ! Removed Timeout It was causing The Issue of not loading the content properly
     this.customStyles.valueChanges.subscribe((value) => {
       this.customStyles$.next(this.customStyles.getRawValue());
+
+      this.quillStyle = this.customStyles.getRawValue();
     });
 
+    // load saved custom styles from local storage if it exists, or use initial value otherwise
+    const savedCustomStyles = localStorage.getItem('custom_styles');
+    if (savedCustomStyles) {
+      this.customStyles.setValue(JSON.parse(savedCustomStyles));
+    }
+
+    this.customStyles.valueChanges.subscribe((value) => {
+      this.customStyles$.next(this.customStyles.getRawValue());
+
+      // save custom styles to local storage when it changes
+      localStorage.setItem(
+        'custom_styles',
+        JSON.stringify(this.customStyles.getRawValue())
+      );
+
+      this.quillStyle = this.customStyles.getRawValue();
+    });
   }
 
+  ngAfterViewInit() {
+    const toolbar = this.quillEditorComponent.quillEditor.getModule('toolbar');
+    toolbar.addHandler('image', this.imageHandler.bind(this));
+  }
 
-  onContentUpdated(newContent: string) {
-    this.quillContent = newContent;
-    localStorage.setItem('editor_content', this.quillContent);
+  //! This is Custom FileHandler
+  imageHandler() {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files![0];
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        console.log(e.target.result);
+        const range = this.quillEditorComponent.quillEditor.getSelection(true);
+
+        // create img tag manually with 'Hello World' as src
+        const img = document.createElement('img');
+        img.src = 'Hello World';
+        const Delta = Quill.import('delta');
+        const delta = new Delta()
+          .retain(range.index)
+          .delete(range.length)
+          .insert({ image: img.outerHTML });
+
+        this.quillEditorComponent.quillEditor.updateContents(delta);
+      };
+
+      reader.readAsDataURL(file);
+    };
   }
 
   onSubmit() {
-    console.log(this.quillContent);
+    console.log(this.quillContent$);
   }
 
+  onEditorCreated(editorInstance: any) {
+    this.quillInstance = editorInstance;
+  }
 
-
+  onContentUpdated(newContent: string) {
+    // Todo: Handle Applying Custom Styles on Typing (Any Action) In Quill Editor
+    // ?  Updating Values of the QuillStyle When Content is Updated (FIXED)
+    this.customStyles$ = new BehaviorSubject<CourseArticleConfig>(
+      (this.quillStyle = this.customStyles.getRawValue())
+    );
+    this.quillContent = newContent;
+    // ? Setting And Getting At tHe Same Time
+    localStorage.setItem('editor_content', this.quillContent);
+    this.quillContent$ = of(localStorage.getItem('editor_content'));
+  }
 
   // Modal Code
   isVisible = false;
@@ -171,23 +295,12 @@ export class AppComponent implements OnInit {
     this.isVisible = true;
 
     // ?  Updating Values of the QuillStyle When Oppening Modal
-    this.quillStyle  = this.customStyles.getRawValue()
-  }
-
-
-
-  handleOk(): void {
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isOkLoading = false;
-    }, 3000);
+    this.quillStyle = this.customStyles.getRawValue();
   }
 
   handleCancel(): void {
     this.isVisible = false;
   }
-
 
   onFileSelected(event: any) {
     const files: File[] = event.target.files;
@@ -214,6 +327,7 @@ export class AppComponent implements OnInit {
 
       //? Add the @font-face rule to the stylesheet
       //? Creates Separate StyleSheet For FontFaces
+      //! Not The Best Solution
       const style = document.createElement('style');
       style.textContent = `
         @font-face {
@@ -232,18 +346,39 @@ export class AppComponent implements OnInit {
 
   addFontFamily(fontName: string) {
     if (!this.addedFontFamilies.includes(fontName)) {
-        this.addedFontFamilies.push(fontName);
-        this.defaultFontFamilies.push(fontName);
-        this.customStyles.controls.fontFamilies.push(this.fb.control(fontName));
+      this.addedFontFamilies.push(fontName);
+      this.defaultFontFamilies.push(fontName);
+      this.customStyles.controls.fontFamilies.push(this.fb.control(fontName));
 
-        this.defaultFontFamilies = [...new Set(this.defaultFontFamilies)];
+      this.defaultFontFamilies = [...new Set(this.defaultFontFamilies)];
     }
-}
+  }
 
+  removeFontFamily(fontName: string) {
+    const fontIndex = this.addedFontFamilies.indexOf(fontName);
+    if (fontIndex !== -1) {
+      this.addedFontFamilies.splice(fontIndex, 1);
 
+      const fontControl = this.customStyles.controls.fontFamilies as FormArray;
+      const fontIndexControl = fontControl.controls.findIndex(
+        (control) => control.value === fontName
+      );
+      if (fontIndexControl !== -1) {
+        fontControl.removeAt(fontIndexControl);
+      }
 
+      //! Remove the font styles from the document's head (Not Best Solution For angular)
+      const styleElements = Array.from(
+        document.head.querySelectorAll(`style[data-font-name="${fontName}"]`)
+      );
+      styleElements.forEach((element) => {
+        element.remove();
+      });
 
-
-
-
+      // Update the default font families if the font is not already in the array
+      if (!this.defaultFontFamilies.includes(fontName)) {
+        this.defaultFontFamilies.push(fontName);
+      }
+    }
+  }
 }
