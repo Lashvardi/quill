@@ -17,6 +17,7 @@ export interface CourseArticleConfig {
 
   // {h1: { fontFamily: 'Helvetica', color: 'red'...}}
   elements: Partial<Record<ElementName, Partial<ElementStyles>>>;
+  
 }
 
 export interface ElementStyles {

@@ -471,15 +471,11 @@
 
   <div *nzModalContent>
     <div class="output" [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">
-
-    </div>
-
-    <!-- ? When i have [innerHTML] and appCustomStyles together it is not working.-->
-    <div appCustomStyles [config]="customStyles$ | async">
       <div class="test_box">
 
       </div>
     </div>
+
 
     <div class="container">
       <button nz-button nz-dropdown [nzDropdownMenu]="menu">View As {{viewMode}}</button>
@@ -487,6 +483,7 @@
         <ul nz-menu>
           <li nz-menu-item (click)="viewMode = 'css'">CSS</li>
           <li nz-menu-item (click)="viewMode = 'json'">JSON</li>
+          <li nz-menu-item (click)="viewMode = 'genCss'">Generated CSS</li>
         </ul>
       </nz-dropdown-menu>
 
@@ -494,7 +491,12 @@
         <pre class="code pre-style" *ngIf="viewMode === 'css'"
           [innerHtml]="quillStyle | jsonToCss | highlightCss"></pre>
         <pre class="code pre-style"
-          *ngIf="viewMode === 'json'"><code class="language-json">{{quillStyle | json}}</code></pre>
+          *ngIf="viewMode === 'json'"><code class="language-json">{{quillStyle | json}}</code>
+        </pre>
+        
+        <pre class="code pre-style" *ngIf="viewMode === 'genCss'">
+          <code>{{css}}</code>
+        </pre>
       </div>
     </div>
 

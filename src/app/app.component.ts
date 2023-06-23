@@ -6,6 +6,8 @@ import { CourseArticleConfig, CustomStyles } from './custom-styles.model';
 import { QuillEditorComponent, QuillModules } from 'ngx-quill';
 import { base64HandlerService } from './services/base64handler.service';
 import Quill from 'quill';
+import { ViewEncapsulation } from '@angular/compiler';
+encapsulation: ViewEncapsulation.None;
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,7 @@ export class AppComponent implements OnInit {
   quillContent$: Observable<string | null> = of(null);
   quillContent = '';
   quillStyle: object = {};
-  viewMode: 'css' | 'json' = 'css';
+  viewMode: 'css' | 'json' | 'genCss' = 'css';
   @ViewChild(QuillEditorComponent) quillEditorComponent!: QuillEditorComponent;
 
   // ? Limitation Of Mark Color
@@ -46,7 +48,11 @@ export class AppComponent implements OnInit {
       },
     },
   };
+  css = '';
 
+  onCssChange(css: string) {
+    this.css = css;
+  }
   // *  Drop Down Options
 
   // ? Text Align Options
@@ -170,9 +176,9 @@ export class AppComponent implements OnInit {
         fontSize: '1.2rem',
         fontStyle: 'normal',
       }),
-      '.test_box': this.fb.group({
-        backgroundColor: 'black',
-      }),
+      // '.test_box': this.fb.group({
+      //   backgroundColor: 'black',
+      // }),
       markColor: this.fb.group({
         backgroundColor: ['yellow'],
       }),
@@ -281,6 +287,10 @@ export class AppComponent implements OnInit {
     this.customStyles$ = new BehaviorSubject<CourseArticleConfig>(
       (this.quillStyle = this.customStyles.getRawValue())
     );
+    localStorage.setItem(
+      'custom_styles',
+      JSON.stringify(this.customStyles.getRawValue())
+    );
     this.quillContent = newContent;
     // ? Setting And Getting At tHe Same Time
     localStorage.setItem('editor_content', this.quillContent);
@@ -378,6 +388,24 @@ export class AppComponent implements OnInit {
       // Update the default font families if the font is not already in the array
       if (!this.defaultFontFamilies.includes(fontName)) {
         this.defaultFontFamilies.push(fontName);
+      }
+    }
+  }
+
+  // Log Styles
+  logStylesheets(): void {
+    for (let i = 0; i < document.styleSheets.length; i++) {
+      const sheet = document.styleSheets[i] as CSSStyleSheet;
+      try {
+        const rules = sheet.cssRules || sheet.rules; // cssRules for standards-compliant browsers, rules for IE
+        for (let j = 0; j < rules.length; j++) {
+          console.log(rules[j].cssText);
+        }
+      } catch (e) {
+        console.warn(
+          'Could not log CSS rules for stylesheet due to security restrictions:',
+          sheet.href
+        );
       }
     }
   }
