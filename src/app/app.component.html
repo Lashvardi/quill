@@ -461,6 +461,39 @@
         </nz-collapse>
 
 
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="Image">
+            <div formGroupName="img" class="config-box">
+              <div class="config-item ">
+                <label for="mark-text">Padding</label>
+                <input id="mark-text" type="text" formControlName="padding" />
+              </div>
+              <div class="config-item ">
+                <label for="mark-text">margin</label>
+                <input id="mark-text" type="text" formControlName="margin" />
+              </div>
+
+              <div class="config-item">
+                <label for="border-width">Border Radius</label>
+                <input id="border-radius" type="text" formControlName="borderRadius" />
+              </div>
+              <div formGroupName="border">
+                <div class="color-picker-box">
+                  <label for="border-color">Border Color</label>
+                  <input id="border-color" type="color" formControlName="color" />
+                </div>
+
+                <div class="config-item">
+                  <label for="border-width">Border Radius</label>
+                  <input id="border-radius" type="text" formControlName="width" />
+                </div>
+              </div>
+
+            </div>
+          </nz-collapse-panel>
+        </nz-collapse>
+
+
       </div>
     </form>
   </div>
@@ -471,11 +504,15 @@
 
   <div *nzModalContent>
     <div class="output" [innerHTML]="quillContent$ | async" appCustomStyles [config]="customStyles$ | async">
+
+    </div>
+
+    <!-- ? When i have [innerHTML] and appCustomStyles together it is not working.-->
+    <div appCustomStyles [config]="customStyles$ | async">
       <div class="test_box">
 
       </div>
     </div>
-
 
     <div class="container">
       <button nz-button nz-dropdown [nzDropdownMenu]="menu">View As {{viewMode}}</button>
@@ -483,7 +520,6 @@
         <ul nz-menu>
           <li nz-menu-item (click)="viewMode = 'css'">CSS</li>
           <li nz-menu-item (click)="viewMode = 'json'">JSON</li>
-          <li nz-menu-item (click)="viewMode = 'genCss'">Generated CSS</li>
         </ul>
       </nz-dropdown-menu>
 
@@ -491,12 +527,7 @@
         <pre class="code pre-style" *ngIf="viewMode === 'css'"
           [innerHtml]="quillStyle | jsonToCss | highlightCss"></pre>
         <pre class="code pre-style"
-          *ngIf="viewMode === 'json'"><code class="language-json">{{quillStyle | json}}</code>
-        </pre>
-        
-        <pre class="code pre-style" *ngIf="viewMode === 'genCss'">
-          <code>{{css}}</code>
-        </pre>
+          *ngIf="viewMode === 'json'"><code class="language-json">{{quillStyle | json}}</code></pre>
       </div>
     </div>
 

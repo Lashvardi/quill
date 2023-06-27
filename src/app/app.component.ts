@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 
 import { FormArray, NonNullableFormBuilder } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -176,12 +176,25 @@ export class AppComponent implements OnInit {
         fontSize: '1.2rem',
         fontStyle: 'normal',
       }),
-      // '.test_box': this.fb.group({
-      //   backgroundColor: 'black',
-      // }),
+      '.test_box': this.fb.group({
+        backgroundColor: 'black',
+      }),
       markColor: this.fb.group({
         backgroundColor: ['yellow'],
       }),
+      img: this.fb.group({
+        maxWidth: '100%',
+        padding: '10px',
+        margin: '0px',
+        borderRadius: '0px',
+        border: this.fb.group({
+          color: 'orange',
+          style: 'solid',
+          radius: '0px',
+          width: '25px' // Set the desired border width here
+        })
+      })
+
     }),
   });
 
@@ -191,7 +204,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private fb: NonNullableFormBuilder,
-    private imageUploadService: base64HandlerService
+    private imageUploadService: base64HandlerService,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -242,7 +256,6 @@ export class AppComponent implements OnInit {
     toolbar.addHandler('image', this.imageHandler.bind(this));
   }
 
-  //! This is Custom FileHandler
   imageHandler() {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -257,21 +270,31 @@ export class AppComponent implements OnInit {
         console.log(e.target.result);
         const range = this.quillEditorComponent.quillEditor.getSelection(true);
 
-        // create img tag manually with 'Hello World' as src
+        // create img tag manually with a custom URL as src
         const img = document.createElement('img');
-        img.src = 'Hello World';
+        img.src = 'https://randomwordgenerator.com/img/picture-generator/5fe0dc464f50b10ff3d8992cc12c30771037dbf85254794e722a7cd59f4b_640.jpg'; // Set your custom URL here
+
         const Delta = Quill.import('delta');
         const delta = new Delta()
           .retain(range.index)
           .delete(range.length)
-          .insert({ image: img.outerHTML });
+          .insert({ image: img.src }); // Use img.src directly as the image source
 
         this.quillEditorComponent.quillEditor.updateContents(delta);
+
+        // Trigger the content update manually
+        this.ngZone.run(() => {
+          this.onContentUpdated(this.quillEditorComponent.quillEditor.root.innerHTML);
+        });
       };
 
       reader.readAsDataURL(file);
     };
   }
+
+
+
+
 
   onSubmit() {
     console.log(this.quillContent$);
