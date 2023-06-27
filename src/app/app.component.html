@@ -464,17 +464,16 @@
         <nz-collapse>
           <nz-collapse-panel nzHeader="Image">
             <div formGroupName="img" class="config-box">
-              <div class="config-item ">
-                <label for="mark-text">Padding</label>
-                <input id="mark-text" type="text" formControlName="padding" />
-              </div>
-              <div class="config-item ">
-                <label for="mark-text">margin</label>
-                <input id="mark-text" type="text" formControlName="margin" />
-              </div>
-
               <div class="config-item">
-                <label for="border-width">Border Radius</label>
+                <label for="padding">Padding</label>
+                <input id="padding" type="text" formControlName="padding" />
+              </div>
+              <div class="config-item">
+                <label for="margin">Margin</label>
+                <input id="margin" type="text" formControlName="margin" />
+              </div>
+              <div class="config-item">
+                <label for="border-radius">Border Radius</label>
                 <input id="border-radius" type="text" formControlName="borderRadius" />
               </div>
               <div formGroupName="border">
@@ -482,16 +481,23 @@
                   <label for="border-color">Border Color</label>
                   <input id="border-color" type="color" formControlName="color" />
                 </div>
+                <div class="config-item">
+                  <label for="border-width">Border Width</label>
+                  <input id="border-width" type="text" formControlName="width" />
+                </div>
 
                 <div class="config-item">
-                  <label for="border-width">Border Radius</label>
-                  <input id="border-radius" type="text" formControlName="width" />
+                  <label for="border-style">Border Style</label>
+                  <nz-select id="h1-font" formControlName="style" nzAllowClear nzPlaceHolder="Choose Border Style">
+                    <nz-option *ngFor="let option of borderStyleOptions" [nzValue]="option.value"
+                      [nzLabel]="option.label"></nz-option>
+                  </nz-select>
                 </div>
               </div>
-
             </div>
           </nz-collapse-panel>
         </nz-collapse>
+
 
 
       </div>
