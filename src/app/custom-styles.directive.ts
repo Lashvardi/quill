@@ -27,7 +27,7 @@ export class CustomStylesDirective implements OnChanges {
     const config = changes['config'].currentValue as CourseArticleConfig | null;
     setTimeout(() => {
       this.setStyles(config);
-    }, 300); // ? Added Timeout to fix the issue (Not the best solution)
+    }, 500); // ? Added Timeout to fix the issue (Not the best solution)
   }
 
   setStyles(config: CourseArticleConfig | null) {
